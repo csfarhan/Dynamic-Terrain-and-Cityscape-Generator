@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -9,7 +10,10 @@ import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GraphicRenderer {
 
@@ -18,7 +22,10 @@ public class GraphicRenderer {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
-        for (Vertex v: aMesh.getVerticesList()) {
+        List<Vertex> vertices = aMesh.getVerticesList();
+        List<Structs.Segment> segments = aMesh.getSegmentsList();
+
+        for (Vertex v: vertices) {
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
@@ -27,6 +34,13 @@ public class GraphicRenderer {
             canvas.fill(point);
             canvas.setColor(old);
         }
+
+        // Creating the segments
+        canvas.setColor(Color.RED);
+        for (Structs.Segment s : segments){
+            canvas.drawLine((int) vertices.get(s.getV1Idx()).getX(),(int) vertices.get(s.getV1Idx()).getY(), (int)vertices.get(s.getV2Idx()).getX(),(int) vertices.get(s.getV2Idx()).getY());
+        }
+
     }
 
     private Color extractColor(List<Property> properties) {
