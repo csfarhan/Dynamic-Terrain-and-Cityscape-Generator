@@ -1,12 +1,12 @@
 # Assignment A2: Mesh Generator
 
   - Author #1 rahmam88@mcmaster.ca
-  - Author #2 [email@mcmaster.ca]
+  - Author #2 hursts4@mcmaster.ca
   - Author #3 [email@mcmaster.ca]
 
 ## How to run the product
 
-_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
+_This section needs to be edited to reflect how the user can interact with the feature released in your project_
 
 ### Installation instructions
 
@@ -46,10 +46,10 @@ mosser@azrael visualizer % ls -lh sample.svg
 -rw-r--r--  1 mosser  staff    56K 29 Jan 10:53 sample.svg
 mosser@azrael visualizer %
 ```
-To viualize the SVG file:
+To visualize the SVG file:
 
   - Open it with a web browser
-  - Convert it into something else with tool slike `rsvg-convert`
+  - Convert it into something else with tools like `rsvg-convert`
 
 ## How to contribute to the project
 

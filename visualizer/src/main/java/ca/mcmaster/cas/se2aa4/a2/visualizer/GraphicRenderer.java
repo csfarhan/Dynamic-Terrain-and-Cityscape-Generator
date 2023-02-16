@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -11,9 +12,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GraphicRenderer {
 
@@ -23,7 +22,7 @@ public class GraphicRenderer {
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
         List<Vertex> vertices = aMesh.getVerticesList();
-        List<Structs.Segment> segments = aMesh.getSegmentsList();
+        List<Segment> segments = aMesh.getSegmentsList();
 
         for (Vertex v: vertices) {
             double centre_x = v.getX() - (THICKNESS/2.0d);
@@ -36,10 +35,19 @@ public class GraphicRenderer {
         }
 
         // Creating the segments
-        canvas.setColor(Color.RED);
-        for (Structs.Segment s : segments){
-            canvas.drawLine((int) vertices.get(s.getV1Idx()).getX(),(int) vertices.get(s.getV1Idx()).getY(), (int)vertices.get(s.getV2Idx()).getX(),(int) vertices.get(s.getV2Idx()).getY());
+        for (Segment s: segments){
+            double x1 = vertices.get(s.getV1Idx()).getX();
+            double y1 = vertices.get(s.getV1Idx()).getY();
+            double x2 = vertices.get(s.getV2Idx()).getX();
+            double y2 = vertices.get(s.getV2Idx()).getY();
+
+            Color old = canvas.getColor();
+            canvas.setColor(extractColor(s.getPropertiesList()));
+            Line2D line = new Line2D.Double(x1,y1,x2,y2);
+            canvas.draw(line);
+            canvas.setColor(old);
         }
+
 
     }
 
