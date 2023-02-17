@@ -59,7 +59,7 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- Insert here your definition of done for your features --
+Feature is completed when it is the final version, fully implemented  with no further reiterations required.
 
 ### Product Backlog
 
