@@ -2,7 +2,7 @@
 
   - Author #1 rahmam88@mcmaster.ca
   - Author #2 hursts4@mcmaster.ca
-  - Author #3 [email@mcmaster.ca]
+  - Author #3 jaigia1@mcmaster.ca
 
 ## How to run the product
 
