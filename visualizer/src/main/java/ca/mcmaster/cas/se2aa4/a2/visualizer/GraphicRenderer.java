@@ -43,20 +43,10 @@ public class GraphicRenderer {
 
             Color old = canvas.getColor();
             canvas.setColor(extractColor(s.getPropertiesList()));
-            if(x1==x2){
-                Line2D line = new Line2D.Double(x1,y1,x2,y2);
-                canvas.draw(line);
-                canvas.setColor(old);
-
-            }
-            else if(y1==y2){
-                Line2D line = new Line2D.Double(x1,y1,x2,y2);
-                canvas.draw(line);
-                canvas.setColor(old);
-            }
+            Line2D line = new Line2D.Double(x1,y1,x2,y2);
+            canvas.draw(line);
+            canvas.setColor(old);
         }
-
-
     }
 
     private Color extractColor(List<Property> properties) {
