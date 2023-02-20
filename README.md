@@ -65,6 +65,6 @@ Feature is completed when it is the final version, fully implemented  with no fu
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
+| F01 | Generating and visualizing horizontal and vertical line segments between adjacent vertices | Abyan Sylvia Farhan | 02/05/2022 | 02/19/2022 | Done |
 
 
