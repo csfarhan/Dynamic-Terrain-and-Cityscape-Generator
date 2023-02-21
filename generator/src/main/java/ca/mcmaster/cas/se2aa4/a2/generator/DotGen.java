@@ -1,7 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import java.io.IOException;
 import java.util.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
@@ -11,9 +12,10 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 public class DotGen {
 
-    private final int width = 500;
-    private final int height = 500;
-    private final int square_size = 20;
+    //TEST VALUES FOR FLOATING POINT - 627.8348, 482.9845, 20.6542
+    private final double width = 500;
+    private final double height = 500;
+    private final double square_size = 20;
 
     public void newSegment(List<Segment> segments, List<Vertex> verticesWithColors, int i1, int i2){
         Vertex v1 = verticesWithColors.get(i1);
@@ -41,11 +43,16 @@ public class DotGen {
     }
 
     public Mesh generate() {
-        List<Vertex> vertices = new ArrayList<>();
+
         // Create all the vertices
-        for(int x = 0; x <= width; x += square_size) {
-            for(int y = 0; y <= height; y += square_size) {
-                vertices.add(Vertex.newBuilder().setX(x).setY(y).build());
+        List<Vertex> vertices = new ArrayList<>();
+        BigDecimal xBD, yBD;
+
+        for(double x = 0; x <= width; x += square_size) {
+            xBD = new BigDecimal(x).setScale(2,RoundingMode.HALF_DOWN);
+            for(double y = 0; y <= height; y += square_size) {
+                yBD = new BigDecimal(y).setScale(2,RoundingMode.HALF_DOWN);
+                vertices.add(Vertex.newBuilder().setX(xBD.doubleValue()).setY(yBD.doubleValue()).build());
             }
         }
 
@@ -66,14 +73,14 @@ public class DotGen {
         List<Segment> segments = new ArrayList<>();
 
         for (int i=0; i<vertices.size(); i++){
-            //if (i+1) % (# vertices/col)!=0, create a new segment with V1Idx = i, V2Idx = i+1
-            if ((i+1) % (height/square_size+1) != 0){
+            //Vertical segments
+            if ((i+1) % (int) (height/square_size+1) != 0){
                 newSegment(segments, verticesWithColors, i, i+1);
             }
 
-            //if i > (# vertices/col), create a new segment with V1Idx = i, V2Idx = i-(# vertices/col)
+            //Horizontal segments
             if (i > height/square_size) {
-                newSegment(segments, verticesWithColors, i, i-(height/square_size+1));
+                newSegment(segments, verticesWithColors, i, i-((int) (height/square_size+1)));
             }
         }
 
