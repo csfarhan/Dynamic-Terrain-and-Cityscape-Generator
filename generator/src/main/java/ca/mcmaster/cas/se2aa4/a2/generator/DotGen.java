@@ -89,12 +89,13 @@ public class DotGen {
         // Polygon arraylist
         List<Polygon> polygons = new ArrayList<>();
         List<Integer> polygonSegmentList = new ArrayList<>();
-        List<Vertex> centroids = new ArrayList<>();
+        List<List<Integer>> listOfPolygonIndexes = new ArrayList<>();
         // Create polygons
         int k = 0;
         int l = ((int) (height/square_size) + 3);
         count = 1;
         while(l <= segments.size()){
+            List<Integer> polygonIndexes = new ArrayList<>();
             // Add to the current polygonList the relevant indexes
 
             //Polygons for last row
@@ -103,6 +104,11 @@ public class DotGen {
                 polygonSegmentList.add(l-3);
                 polygonSegmentList.add(l-2);
                 polygonSegmentList.add(l-1);
+                polygonIndexes.add(k);
+                polygonIndexes.add(l-3);
+                polygonIndexes.add(l-2);
+                polygonIndexes.add(l-1);
+
                 l = l+3;
 
                 //Polygons past first column
@@ -117,6 +123,11 @@ public class DotGen {
                 polygonSegmentList.add(l-3);
                 polygonSegmentList.add(l-2);
                 polygonSegmentList.add(l);
+                polygonIndexes.add(k);
+                polygonIndexes.add(l-3);
+                polygonIndexes.add(l-2);
+                polygonIndexes.add(l);
+
                 l = l+2;
 
                 //Polygons past first column
@@ -144,7 +155,8 @@ public class DotGen {
             double yAvg = (y1+y2+y3+y4) / 4;
 
             // Add to vertices ArrayList the vertices of the centroid
-            centroids.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
+            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
+            listOfPolygonIndexes.add(polygonIndexes);
 
             // Increment counters
             count++;
@@ -154,7 +166,27 @@ public class DotGen {
             polygonSegmentList.clear();
         }
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygons).build();
+        // Double for loop iterate through and find polygon which share a segment index
+        // Create new polygonWithNeighbours which include those shared indexes
+        List<Polygon> polygonWithNeighbours = new ArrayList<>();
+        for (int i = 0; i < listOfPolygonIndexes.size(); i++){
+            List<Integer> neighbourIndexes = new ArrayList<>();
+            int a = listOfPolygonIndexes.get(i).get(0);
+            int b = listOfPolygonIndexes.get(i).get(1);
+            int c = listOfPolygonIndexes.get(i).get(2);
+            int d = listOfPolygonIndexes.get(i).get(3);
+            for (int j = 0; j < listOfPolygonIndexes.size(); j++){
+                if (i!=j && (listOfPolygonIndexes.get(j).contains(a) || listOfPolygonIndexes.get(j).contains(b) || listOfPolygonIndexes.get(j).contains(c) || listOfPolygonIndexes.get(j).contains(d))){
+                    neighbourIndexes.add(j);
+                }
+            }
+            polygonWithNeighbours.add(Polygon.newBuilder(polygons.get(i)).addAllNeighborIdxs(neighbourIndexes).build());
+        }
+
+        System.out.println(polygonWithNeighbours);
+
+
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygonWithNeighbours).build();
     }
 
 }
