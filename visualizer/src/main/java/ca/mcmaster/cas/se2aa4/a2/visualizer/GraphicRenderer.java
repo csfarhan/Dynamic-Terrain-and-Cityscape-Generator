@@ -1,9 +1,11 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -22,6 +24,11 @@ public class GraphicRenderer {
         canvas.setStroke(stroke);
         List<Vertex> vertices = aMesh.getVerticesList();
         List<Segment> segments = aMesh.getSegmentsList();
+        List<Polygon> polygons = aMesh.getPolygonsList();
+
+        for (Polygon p : polygons){
+            System.out.println(p);
+        }
 
         for (Vertex v: vertices) {
             double centre_x = v.getX() - (THICKNESS/2.0d);
@@ -33,6 +40,7 @@ public class GraphicRenderer {
             canvas.setColor(old);
         }
 
+        /*
         // Creating the segments
         for (Segment s: segments){
             double x1 = vertices.get(s.getV1Idx()).getX();
@@ -46,13 +54,53 @@ public class GraphicRenderer {
             canvas.draw(line);
             canvas.setColor(old);
         }
+         */
+        for (Polygon p: polygons){
+
+            // Obtain all relevant points for creating the lines
+            double x1 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV1Idx()).getX();
+            double y1 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV1Idx()).getY();
+            double x2 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV2Idx()).getX();
+            double y2 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV2Idx()).getY();
+
+            double x3 = vertices.get(segments.get(p.getSegmentIdxs(1)).getV1Idx()).getX();
+            double y3 = vertices.get(segments.get(p.getSegmentIdxs(1)).getV1Idx()).getY();
+            double x4 = vertices.get(segments.get(p.getSegmentIdxs(1)).getV2Idx()).getX();
+            double y4 = vertices.get(segments.get(p.getSegmentIdxs(1)).getV2Idx()).getY();
+
+            double x5 = vertices.get(segments.get(p.getSegmentIdxs(2)).getV1Idx()).getX();
+            double y5 = vertices.get(segments.get(p.getSegmentIdxs(2)).getV1Idx()).getY();
+            double x6 = vertices.get(segments.get(p.getSegmentIdxs(2)).getV2Idx()).getX();
+            double y6 = vertices.get(segments.get(p.getSegmentIdxs(2)).getV2Idx()).getY();
+
+            double x7 = vertices.get(segments.get(p.getSegmentIdxs(3)).getV1Idx()).getX();
+            double y7 = vertices.get(segments.get(p.getSegmentIdxs(3)).getV1Idx()).getY();
+            double x8 = vertices.get(segments.get(p.getSegmentIdxs(3)).getV2Idx()).getX();
+            double y8 = vertices.get(segments.get(p.getSegmentIdxs(3)).getV2Idx()).getY();
+
+            // Obtain required colours and draw the lines
+            Color old = canvas.getColor();
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(0)).getPropertiesList()));
+            Line2D line = new Line2D.Double(x1,y1,x2,y2);
+            canvas.draw(line);
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(1)).getPropertiesList()));
+            Line2D line2 = new Line2D.Double(x3,y3,x4,y4);
+            canvas.draw(line2);
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(2)).getPropertiesList()));
+            Line2D line3 = new Line2D.Double(x5,y5,x6,y6);
+            canvas.draw(line3);
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(3)).getPropertiesList()));
+            Line2D line4 = new Line2D.Double(x7,y7,x8,y8);
+            canvas.draw(line4);
+            canvas.setColor(old);
+        }
     }
 
     private Color extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-                System.out.println(p.getValue());
+                //System.out.println(p.getValue());
                 val = p.getValue();
             }
         }
