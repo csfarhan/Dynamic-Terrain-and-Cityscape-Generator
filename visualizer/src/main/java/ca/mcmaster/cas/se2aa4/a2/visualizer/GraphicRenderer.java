@@ -111,6 +111,7 @@ public class GraphicRenderer {
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
         return new Color(red, green, blue);
+
     }
 
 }

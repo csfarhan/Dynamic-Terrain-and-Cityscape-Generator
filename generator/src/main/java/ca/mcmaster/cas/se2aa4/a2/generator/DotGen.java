@@ -92,13 +92,42 @@ public class DotGen {
 
         // Create polygons
         int k = 0;
-        int l = 28;
-        while (l < segments.size()){
+        int l = ((int) (height/square_size) + 3);
+        count = 1;
+        while(l <= segments.size()){
             // Add to the current polygonList the relevant indexes
-            polygonList.add(k);
-            polygonList.add(l-3);
-            polygonList.add(l-2);
-            polygonList.add(l);
+
+            //Polygons for last row
+            if(count % ((int)height/square_size) == 0){
+                polygonList.add(k);
+                polygonList.add(l-3);
+                polygonList.add(l-2);
+                polygonList.add(l-1);
+                l = l+3;
+
+                //Polygons past first column
+                if(k>25){
+                    k+= 3;
+                }else{
+                    k++;
+                }
+                count=0;
+            }else{
+                polygonList.add(k);
+                polygonList.add(l-3);
+                polygonList.add(l-2);
+                polygonList.add(l);
+                l = l+2;
+
+                //Polygons past first column
+                if(k>24){
+                    k+=2;
+                }else {
+                    k++;
+                }
+
+            }
+
 
             // Get points required to calculate centroid
             double x1 = vertices.get(segments.get(polygonList.get(0)).getV1Idx()).getX();
@@ -118,20 +147,14 @@ public class DotGen {
             verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
 
             // Increment counters
-            k++;
-            l = l+2;
+
+            count++;
 
             // Create polygon each iteration with relevant indexes
             polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonList).setCentroidIdx(verticesWithColors.size()-1).build());
             polygonList.clear();
         }
 
-        // Edge case for bottom right vertex
-        polygonList.add(636);
-        polygonList.add(1296);
-        polygonList.add(1297);
-        polygonList.add(1299);
-        polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonList).build());
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
