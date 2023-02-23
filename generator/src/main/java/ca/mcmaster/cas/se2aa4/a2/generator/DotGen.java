@@ -88,8 +88,8 @@ public class DotGen {
 
         // Polygon arraylist
         List<Polygon> polygons = new ArrayList<>();
-        List<Integer> polygonList = new ArrayList<>();
-
+        List<Integer> polygonSegmentList = new ArrayList<>();
+        List<Vertex> centroids = new ArrayList<>();
         // Create polygons
         int k = 0;
         int l = ((int) (height/square_size) + 3);
@@ -99,10 +99,10 @@ public class DotGen {
 
             //Polygons for last row
             if(count % ((int)height/square_size) == 0){
-                polygonList.add(k);
-                polygonList.add(l-3);
-                polygonList.add(l-2);
-                polygonList.add(l-1);
+                polygonSegmentList.add(k);
+                polygonSegmentList.add(l-3);
+                polygonSegmentList.add(l-2);
+                polygonSegmentList.add(l-1);
                 l = l+3;
 
                 //Polygons past first column
@@ -113,10 +113,10 @@ public class DotGen {
                 }
                 count=0;
             }else{
-                polygonList.add(k);
-                polygonList.add(l-3);
-                polygonList.add(l-2);
-                polygonList.add(l);
+                polygonSegmentList.add(k);
+                polygonSegmentList.add(l-3);
+                polygonSegmentList.add(l-2);
+                polygonSegmentList.add(l);
                 l = l+2;
 
                 //Polygons past first column
@@ -130,29 +130,28 @@ public class DotGen {
 
 
             // Get points required to calculate centroid
-            double x1 = vertices.get(segments.get(polygonList.get(0)).getV1Idx()).getX();
-            double x2 = vertices.get(segments.get(polygonList.get(1)).getV2Idx()).getX();
-            double x3 = vertices.get(segments.get(polygonList.get(2)).getV1Idx()).getX();
-            double x4 = vertices.get(segments.get(polygonList.get(3)).getV2Idx()).getX();
+            double x1 = vertices.get(segments.get(polygonSegmentList.get(0)).getV1Idx()).getX();
+            double x2 = vertices.get(segments.get(polygonSegmentList.get(1)).getV2Idx()).getX();
+            double x3 = vertices.get(segments.get(polygonSegmentList.get(2)).getV1Idx()).getX();
+            double x4 = vertices.get(segments.get(polygonSegmentList.get(3)).getV2Idx()).getX();
 
-            double y1 = vertices.get(segments.get(polygonList.get(0)).getV1Idx()).getY();
-            double y2 = vertices.get(segments.get(polygonList.get(1)).getV2Idx()).getY();
-            double y3 = vertices.get(segments.get(polygonList.get(2)).getV1Idx()).getY();
-            double y4 = vertices.get(segments.get(polygonList.get(3)).getV2Idx()).getY();
+            double y1 = vertices.get(segments.get(polygonSegmentList.get(0)).getV1Idx()).getY();
+            double y2 = vertices.get(segments.get(polygonSegmentList.get(1)).getV2Idx()).getY();
+            double y3 = vertices.get(segments.get(polygonSegmentList.get(2)).getV1Idx()).getY();
+            double y4 = vertices.get(segments.get(polygonSegmentList.get(3)).getV2Idx()).getY();
 
             double xAvg = (x1+x2+x3+x4) / 4;
             double yAvg = (y1+y2+y3+y4) / 4;
 
             // Add to vertices ArrayList the vertices of the centroid
-            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
+            centroids.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
 
             // Increment counters
-
             count++;
 
             // Create polygon each iteration with relevant indexes
-            polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonList).setCentroidIdx(verticesWithColors.size()-1).build());
-            polygonList.clear();
+            polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonSegmentList).setCentroidIdx(verticesWithColors.size()-1).build());
+            polygonSegmentList.clear();
         }
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygons).build();
