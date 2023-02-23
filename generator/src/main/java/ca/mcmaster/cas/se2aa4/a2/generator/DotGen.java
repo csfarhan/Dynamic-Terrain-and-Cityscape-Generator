@@ -9,7 +9,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
-
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 public class DotGen {
 
     //TEST VALUES FOR FLOATING POINT - 627.8348, 482.9845, 20.6542
@@ -44,18 +44,20 @@ public class DotGen {
 
     public Mesh generate() {
 
+
         // Create all the vertices
         List<Vertex> vertices = new ArrayList<>();
         BigDecimal xBD, yBD;
-
+        int count = 0;
         for(double x = 0; x <= width; x += square_size) {
             xBD = new BigDecimal(x).setScale(2,RoundingMode.HALF_DOWN);
             for(double y = 0; y <= height; y += square_size) {
                 yBD = new BigDecimal(y).setScale(2,RoundingMode.HALF_DOWN);
                 vertices.add(Vertex.newBuilder().setX(xBD.doubleValue()).setY(yBD.doubleValue()).build());
+                //System.out.printf("x: %f y: %f count: %d\n",x,y, count);
+                count++;
             }
         }
-
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         List<Vertex> verticesWithColors = new ArrayList<>();
         Random bag = new Random();
@@ -84,7 +86,53 @@ public class DotGen {
             }
         }
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
+        // Polygon arraylist
+        List<Polygon> polygons = new ArrayList<>();
+        List<Integer> polygonList = new ArrayList<>();
+
+        // Create polygons
+        int k = 0;
+        int l = 28;
+        while (l < segments.size()){
+            // Add to the current polygonList the relevant indexes
+            polygonList.add(k);
+            polygonList.add(l-3);
+            polygonList.add(l-2);
+            polygonList.add(l);
+
+            // Get points required to calculate centroid
+            double x1 = vertices.get(segments.get(polygonList.get(0)).getV1Idx()).getX();
+            double x2 = vertices.get(segments.get(polygonList.get(1)).getV2Idx()).getX();
+            double x3 = vertices.get(segments.get(polygonList.get(2)).getV1Idx()).getX();
+            double x4 = vertices.get(segments.get(polygonList.get(3)).getV2Idx()).getX();
+
+            double y1 = vertices.get(segments.get(polygonList.get(0)).getV1Idx()).getY();
+            double y2 = vertices.get(segments.get(polygonList.get(1)).getV2Idx()).getY();
+            double y3 = vertices.get(segments.get(polygonList.get(2)).getV1Idx()).getY();
+            double y4 = vertices.get(segments.get(polygonList.get(3)).getV2Idx()).getY();
+
+            double xAvg = (x1+x2+x3+x4) / 4;
+            double yAvg = (y1+y2+y3+y4) / 4;
+
+            // Add to vertices ArrayList the vertices of the centroid
+            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
+
+            // Increment counters
+            k++;
+            l = l+2;
+
+            // Create polygon each iteration with relevant indexes
+            polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonList).setCentroidIdx(verticesWithColors.size()-1).build());
+            polygonList.clear();
+        }
+
+        // Edge case for bottom right vertex
+        polygonList.add(636);
+        polygonList.add(1296);
+        polygonList.add(1297);
+        polygonList.add(1299);
+        polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonList).build());
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 
 }
