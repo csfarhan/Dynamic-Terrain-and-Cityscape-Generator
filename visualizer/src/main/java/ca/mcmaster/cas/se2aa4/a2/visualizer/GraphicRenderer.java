@@ -1,11 +1,11 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
+import org.apache.commons.cli.CommandLine;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -18,7 +18,7 @@ import java.util.List;
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas) {
+    public void render(Mesh aMesh, Graphics2D canvas, CommandLine cmd) {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
@@ -26,35 +26,6 @@ public class GraphicRenderer {
         List<Segment> segments = aMesh.getSegmentsList();
         List<Polygon> polygons = aMesh.getPolygonsList();
 
-        for (Polygon p : polygons){
-            System.out.println(p);
-        }
-
-        for (Vertex v: vertices) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            canvas.fill(point);
-            canvas.setColor(old);
-        }
-
-        /*
-        // Creating the segments
-        for (Segment s: segments){
-            double x1 = vertices.get(s.getV1Idx()).getX();
-            double y1 = vertices.get(s.getV1Idx()).getY();
-            double x2 = vertices.get(s.getV2Idx()).getX();
-            double y2 = vertices.get(s.getV2Idx()).getY();
-
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(s.getPropertiesList()));
-            Line2D line = new Line2D.Double(x1,y1,x2,y2);
-            canvas.draw(line);
-            canvas.setColor(old);
-        }
-         */
         for (Polygon p: polygons){
 
             // Obtain all relevant points for creating the lines
@@ -78,33 +49,56 @@ public class GraphicRenderer {
             double x8 = vertices.get(segments.get(p.getSegmentIdxs(3)).getV2Idx()).getX();
             double y8 = vertices.get(segments.get(p.getSegmentIdxs(3)).getV2Idx()).getY();
 
+            //Fill background
+            if (cmd.hasOption("d")){
+                Color old = canvas.getColor();
+                canvas.setColor(Color.LIGHT_GRAY);
+                canvas.fillRect((int)x1, (int)y1, (int)(x3-x1), (int)(y2-y1));
+                canvas.setColor(old);
+            }
+
             // Obtain required colours and draw the lines
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(0)).getPropertiesList()));
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(0)).getPropertiesList(), cmd));
             Line2D line = new Line2D.Double(x1,y1,x2,y2);
             canvas.draw(line);
-            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(1)).getPropertiesList()));
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(1)).getPropertiesList(), cmd));
             Line2D line2 = new Line2D.Double(x3,y3,x4,y4);
             canvas.draw(line2);
-            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(2)).getPropertiesList()));
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(2)).getPropertiesList(), cmd));
             Line2D line3 = new Line2D.Double(x5,y5,x6,y6);
             canvas.draw(line3);
-            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(3)).getPropertiesList()));
+            canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(3)).getPropertiesList(), cmd));
             Line2D line4 = new Line2D.Double(x7,y7,x8,y8);
             canvas.draw(line4);
+
+            canvas.setColor(old);
+        }
+
+        for (Vertex v: vertices) {
+            double centre_x = v.getX() - (THICKNESS/2.0d);
+            double centre_y = v.getY() - (THICKNESS/2.0d);
+            Color old = canvas.getColor();
+            canvas.setColor(extractColor(v.getPropertiesList(), cmd));
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+            canvas.fill(point);
             canvas.setColor(old);
         }
     }
 
-    private Color extractColor(List<Property> properties) {
+    private Color extractColor(List<Property> properties, CommandLine cmd) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-                //System.out.println(p.getValue());
                 val = p.getValue();
             }
         }
         if (val == null)
+            if (cmd.hasOption("d"))
+                return Color.RED;
+            else
+                return Color.BLACK;
+        else if (cmd.hasOption("d"))
             return Color.BLACK;
         String[] raw = val.split(",");
         int red = Integer.parseInt(raw[0]);

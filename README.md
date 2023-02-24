@@ -67,8 +67,8 @@ Feature is completed when it is the final version, fully implemented  with no fu
 |:--:|---------------|------|-------|-----|--------|
 | F01 | Generating and visualizing horizontal and vertical line segments between adjacent vertices | Abyan Sylvia Farhan | 02/05/2022 | 02/19/2022 | Done |
 | F02 | Two decimal place precision model for floating point numbers | Sylvia | 02/21/2023 | 02/21/2023 | Done |
-| F03 | Creating polygons with centroids and neighbourhood relationships | Farhan | 02/21/2023 |  | Started |
-| F04 | Rendering with varying thickness and opacity | Abyan |  |  | Pending |
-| F05 | Debug mode to set all colours to a consistent scheme | Sylvia |  |  | Pending |
+| F03 | Creating polygons with centroids and neighbourhood relationships | Farhan | 02/21/2023 | 02/23/2023 | Done |
+| F04 | Rendering with varying thickness and opacity | Abyan | 02/23/2023 |  | Started |
+| F05 | Debug mode to set all colours to a consistent scheme | Sylvia | 02/23/2023 | 02/24/2023 | Done |
 
 
