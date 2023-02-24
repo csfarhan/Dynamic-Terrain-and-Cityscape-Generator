@@ -112,7 +112,7 @@ public class DotGen {
                 l = l+3;
 
                 //Polygons past first column
-                if(k>25){
+                if(k>(height / square_size)){
                     k+= 3;
                 }else{
                     k++;
@@ -131,7 +131,7 @@ public class DotGen {
                 l = l+2;
 
                 //Polygons past first column
-                if(k>24){
+                if(k>(height/square_size)-1){
                     k+=2;
                 }else {
                     k++;
