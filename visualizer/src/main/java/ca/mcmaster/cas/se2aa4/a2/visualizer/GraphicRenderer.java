@@ -17,7 +17,6 @@ import java.util.List;
 
 public class GraphicRenderer {
 
-    private static final int THICKNESS = 3;
     public void render(Mesh aMesh, Graphics2D canvas, CommandLine cmd) {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
@@ -33,6 +32,7 @@ public class GraphicRenderer {
             double y1 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV1Idx()).getY();
             double x2 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV2Idx()).getX();
             double y2 = vertices.get(segments.get(p.getSegmentIdxs(0)).getV2Idx()).getY();
+
 
             double x3 = vertices.get(segments.get(p.getSegmentIdxs(1)).getV1Idx()).getX();
             double y3 = vertices.get(segments.get(p.getSegmentIdxs(1)).getV1Idx()).getY();
@@ -58,6 +58,9 @@ public class GraphicRenderer {
             }
 
             // Obtain required colours and draw the lines
+            float THICKNESS = extractLineThickness(p.getPropertiesList());
+            stroke = new BasicStroke(THICKNESS);
+            canvas.setStroke(stroke);
             Color old = canvas.getColor();
             canvas.setColor(extractColor(segments.get(p.getSegmentIdxs(0)).getPropertiesList(), cmd));
             Line2D line = new Line2D.Double(x1,y1,x2,y2);
@@ -76,6 +79,8 @@ public class GraphicRenderer {
         }
 
         for (Vertex v: vertices) {
+            int THICKNESS = extractThickness(v.getPropertiesList());
+            //int THICKNESS = 5;
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
@@ -104,7 +109,33 @@ public class GraphicRenderer {
         int red = Integer.parseInt(raw[0]);
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
+        int alpha = Integer.parseInt(raw[3]);
+        return new Color(red, green, blue, alpha);
+
+    }
+
+    private int extractThickness(List<Property> properties){
+        int value = 0;
+        for (Property p: properties){
+            if(p.getKey().equals("thickness")){
+                value = Integer.parseInt(p.getValue());
+                return value;
+
+            }
+        }
+
+        return value;
+
+    }
+    private float extractLineThickness(List<Property> properties){
+        String value = null;
+        for (Property p: properties){
+            if(p.getKey().equals("thickness")){
+                value = p.getValue();
+            }
+        }
+        float thickness = Float.parseFloat(value);
+        return thickness;
 
     }
 

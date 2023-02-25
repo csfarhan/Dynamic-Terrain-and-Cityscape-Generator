@@ -35,11 +35,14 @@ public class DotGen {
         int red_avg = ((red1 + red2) / 2);
         int green_avg = ((green1 + green2) / 2);
         int blue_avg = ((blue1 + blue2) / 2);
+        int alpha = 255;
 
         //Create new colorCode
-        String colorCode = red_avg + "," + green_avg + "," + blue_avg;
+        String colorCode = red_avg + "," + green_avg + "," + blue_avg + "," + alpha;
         Property avg_color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-        segments.add(Structs.Segment.newBuilder().setV1Idx(i1).setV2Idx(i2).addProperties(avg_color).build());
+        Property thickness = Property.newBuilder().setKey("thickness").setValue("0.5").build();
+        segments.add(Structs.Segment.newBuilder().setV1Idx(i1).setV2Idx(i2).addProperties(avg_color).addProperties(thickness).build());
+
     }
 
     public Mesh generate() {
@@ -65,10 +68,15 @@ public class DotGen {
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
-            String colorCode = red + "," + green + "," + blue;
+            int alpha = 255;
+            String colorCode = red + "," + green + "," + blue + "," + alpha;
+
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
+            Property thickness = Property.newBuilder().setKey("thickness").setValue("3").build();
+            Vertex colored = Vertex.newBuilder(v).addProperties(color).addProperties(thickness).build();
             verticesWithColors.add(colored);
+
+
         }
 
         // Creating segments
@@ -90,6 +98,7 @@ public class DotGen {
         List<Polygon> polygons = new ArrayList<>();
         List<Integer> polygonSegmentList = new ArrayList<>();
         List<List<Integer>> listOfPolygonIndexes = new ArrayList<>();
+        Property thickness = Property.newBuilder().setKey("thickness").setValue("0.5").build();
         // Create polygons
         int k = 0;
         int l = ((int) (height/square_size) + 3);
@@ -155,14 +164,15 @@ public class DotGen {
             double yAvg = (y1+y2+y3+y4) / 4;
 
             // Add to vertices ArrayList the vertices of the centroid
-            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).build());
+            Property centroidThickness = Property.newBuilder().setKey("thickness").setValue("3").build();
+            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).addProperties(centroidThickness).build());
             listOfPolygonIndexes.add(polygonIndexes);
 
             // Increment counters
             count++;
 
             // Create polygon each iteration with relevant indexes
-            polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonSegmentList).setCentroidIdx(verticesWithColors.size()-1).build());
+            polygons.add(Polygon.newBuilder().addAllSegmentIdxs(polygonSegmentList).setCentroidIdx(verticesWithColors.size()-1).addProperties(thickness).build());
             polygonSegmentList.clear();
         }
 
@@ -182,9 +192,6 @@ public class DotGen {
             }
             polygonWithNeighbours.add(Polygon.newBuilder(polygons.get(i)).addAllNeighborIdxs(neighbourIndexes).build());
         }
-
-        System.out.println(polygonWithNeighbours);
-
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygonWithNeighbours).build();
     }
