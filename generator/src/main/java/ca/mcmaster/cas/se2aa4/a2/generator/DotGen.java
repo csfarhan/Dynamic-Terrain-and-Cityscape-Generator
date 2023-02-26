@@ -165,7 +165,9 @@ public class DotGen {
 
             // Add to vertices ArrayList the vertices of the centroid
             Property centroidThickness = Property.newBuilder().setKey("thickness").setValue("3").build();
-            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).addProperties(centroidThickness).build());
+            String colorCode = 0 + "," + 0 + "," + 0 + "," + 255;
+            Property avg_color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+            verticesWithColors.add(Vertex.newBuilder().setX(xAvg).setY(yAvg).addProperties(avg_color).addProperties(centroidThickness).build());
             listOfPolygonIndexes.add(polygonIndexes);
 
             // Increment counters
@@ -191,6 +193,22 @@ public class DotGen {
                 }
             }
             polygonWithNeighbours.add(Polygon.newBuilder(polygons.get(i)).addAllNeighborIdxs(neighbourIndexes).build());
+        }
+
+
+        // Neighbour segments
+        for (int i=vertices.size(); i<verticesWithColors.size(); i++){
+
+            //Vertical centroid segments
+            if ((i) % (int) (height/square_size) != 0){
+                newSegment(segments, verticesWithColors, i, i+1);
+
+            }
+            //Horizontal centroid segments
+            if (i > vertices.size() + (int) height/square_size-1) {
+                newSegment(segments, verticesWithColors, i, i-(int) (height/square_size));
+            }
+
         }
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).addAllPolygons(polygonWithNeighbours).build();

@@ -89,6 +89,22 @@ public class GraphicRenderer {
             canvas.fill(point);
             canvas.setColor(old);
         }
+
+        for (Segment s: segments){
+
+            double x1 = vertices.get(s.getV1Idx()).getX();
+            double y1 = vertices.get(s.getV1Idx()).getY();
+            double x2 = vertices.get(s.getV2Idx()).getX();
+            double y2 = vertices.get(s.getV2Idx()).getY();
+            if(x1 % 4 != 0) {
+                Color old = canvas.getColor();
+                canvas.setColor(extractColor(s.getPropertiesList(), cmd));
+                Line2D line = new Line2D.Double(x1, y1, x2, y2);
+                canvas.draw(line);
+                canvas.setColor(old);
+            }
+
+        }
     }
 
     private Color extractColor(List<Property> properties, CommandLine cmd) {
