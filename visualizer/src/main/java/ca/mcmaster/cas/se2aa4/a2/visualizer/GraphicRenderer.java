@@ -58,7 +58,7 @@ public class GraphicRenderer {
             }
 
             // Obtain required colours and draw the lines
-            float THICKNESS = extractLineThickness(p.getPropertiesList());
+            float THICKNESS = extractLineThickness(segments.get(p.getSegmentIdxs(0)).getPropertiesList());
             stroke = new BasicStroke(THICKNESS);
             canvas.setStroke(stroke);
             Color old = canvas.getColor();
@@ -78,9 +78,31 @@ public class GraphicRenderer {
             canvas.setColor(old);
         }
 
+        for (int i = vertices.size()-1; i< segments.size();i++){
+            //count++;
+            double x1 = vertices.get(segments.get(i).getV1Idx()).getX();
+            double y1 = vertices.get(segments.get(i).getV1Idx()).getY();
+            double x2 = vertices.get(segments.get(i).getV2Idx()).getX();
+            double y2 = vertices.get(segments.get(i).getV2Idx()).getY();
+
+            Color old = canvas.getColor();
+            if(cmd.hasOption("d")){
+                canvas.setColor(Color.yellow);
+            }else{
+                canvas.setColor(extractColor(segments.get(i).getPropertiesList(), cmd));
+            }
+            stroke = new BasicStroke(extractLineThickness(segments.get(i).getPropertiesList()));
+            canvas.setStroke(stroke);
+            Line2D line = new Line2D.Double(x1, y1, x2, y2);
+            canvas.draw(line);
+            canvas.setColor(old);
+
+
+        }
+
         for (Vertex v: vertices) {
             int THICKNESS = extractThickness(v.getPropertiesList());
-            //int THICKNESS = 5;
+
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
@@ -90,21 +112,7 @@ public class GraphicRenderer {
             canvas.setColor(old);
         }
 
-        for (Segment s: segments){
 
-            double x1 = vertices.get(s.getV1Idx()).getX();
-            double y1 = vertices.get(s.getV1Idx()).getY();
-            double x2 = vertices.get(s.getV2Idx()).getX();
-            double y2 = vertices.get(s.getV2Idx()).getY();
-            if(x1 % 4 != 0) {
-                Color old = canvas.getColor();
-                canvas.setColor(extractColor(s.getPropertiesList(), cmd));
-                Line2D line = new Line2D.Double(x1, y1, x2, y2);
-                canvas.draw(line);
-                canvas.setColor(old);
-            }
-
-        }
     }
 
     private Color extractColor(List<Property> properties, CommandLine cmd) {
