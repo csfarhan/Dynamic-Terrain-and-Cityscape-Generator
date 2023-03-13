@@ -33,8 +33,8 @@ public class Configuration {
 
     private Options options() {
         Options options = new Options();
-        options.addOption(new Option(INPUT, true, "Input file (SVG)"));
-        options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
+        options.addOption(new Option(INPUT, true, "Input file (MESH)"));
+        options.addOption(new Option(OUTPUT, true, "Output file (SVG)"));
         options.addOption(new Option(DEBUG, false, "Debug mode"));
         return options;
     }

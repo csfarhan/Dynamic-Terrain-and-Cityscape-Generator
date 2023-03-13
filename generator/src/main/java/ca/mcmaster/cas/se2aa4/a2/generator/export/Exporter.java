@@ -26,14 +26,14 @@ public class Exporter {
             for(PairOfVertex pov: p.hull()) {
                 segmentIdxs.add(segments.get(pov));
             }
-            List<Integer> neigbhoursIdx = new ArrayList<>();
+            List<Integer> neighboursIdx = new ArrayList<>();
             for(Polygon n: p.neighbours()){
-                neigbhoursIdx.add(polygons.get(n));
+                neighboursIdx.add(polygons.get(n));
             }
             Structs.Polygon exported = Structs.Polygon.newBuilder()
                     .setCentroidIdx(centroidIdx)
                     .addAllSegmentIdxs(segmentIdxs)
-                    .addAllNeighborIdxs(neigbhoursIdx).build();
+                    .addAllNeighborIdxs(neighboursIdx).build();
             result.addPolygons(exported);
         }
     }

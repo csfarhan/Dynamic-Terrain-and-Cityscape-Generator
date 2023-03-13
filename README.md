@@ -26,6 +26,13 @@ java -jar generator/generator.jar -k irregular -h 1080 -w 1920 -p 1000 -p 500 -r
 
 One can run the generator with `-help` as option to see the different command line arguments that are available
 
+### Terrain generation of a mesh
+
+```
+java -jar island/island.jar -i img/grid.mesh -o img/gridisland.mesh -s circle
+java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle
+```
+
 ### Visualizing a mesh, (regular or debug mode)
 
 ```
@@ -33,6 +40,9 @@ java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid.svg
 java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid_debug.svg -x
 java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular.svg
 java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular_debug.svg -x
+
+java -jar visualizer/visualizer.jar -i img/gridisland.mesh -o img/gridisland.svg
+java -jar visualizer/visualizer.jar -i img/irregularisland.mesh -o img/irregularisland.svg
 ```
 
 Note: PDF versions of the SVG files were created with `rsvg-convert`.
