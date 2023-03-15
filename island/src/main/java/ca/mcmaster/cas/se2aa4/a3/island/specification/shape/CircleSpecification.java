@@ -12,45 +12,47 @@ public class CircleSpecification implements Shapable {
         polygons = inputMesh.getPolygonsList();
         new_polygons = new ArrayList<>();
         List<Vertex> centroidList = inputMesh.getVerticesList();
+        double x;
+        double y;
+        double width = 0;
+        double height = 0;
+        double radius;
 
-        //Ocean blue
-        Property color = Property.newBuilder().setKey("rgb_color").setValue("47,97,196").build();
-        Property color2 = Property.newBuilder().setKey("rgb_color").setValue("0,5,135").build();
-        Property color3 = Property.newBuilder().setKey("rgb_color").setValue("222,0,230").build();
+        //Colors
+        Property ocean_color = Property.newBuilder().setKey("rgb_color").setValue("51,102,135").build();
+        Property land_color = Property.newBuilder().setKey("rgb_color").setValue("255,231,161").build();
 
+        //Estimate size of mesh by iterating over all vertices and determining max x/y
+        for (Vertex v : centroidList){
+            x = v.getX();
+            y = v.getY();
+            if (x > width){
+                width = x;
+            }
+            if (y > height){
+                height = y;
+            }
+        }
 
-        // Find center of grid
-        double center_x = 1920/2;
-        double center_y = 1080/2;
+        //Determine max distance from center --> half the side length of square island
+        if (width < height){
+            radius = width*0.35;
+        } else {
+            radius = height*0.35;
+        }
 
+        System.out.println(radius);
         // Iterate through and if distance is within radius then add to new_polygons (can edit radius)
         for (Polygon p : polygons) {
-            double distance = Math.sqrt(Math.pow((centroidList.get(p.getCentroidIdx()).getX() - center_x), 2) + Math.pow((centroidList.get(p.getCentroidIdx()).getY() - center_y), 2));
+            double distance = Math.sqrt(Math.pow((centroidList.get(p.getCentroidIdx()).getX() - width/2), 2) + Math.pow((centroidList.get(p.getCentroidIdx()).getY() - height/2), 2));
             Property distanceTemp = Property.newBuilder().setKey("distance").setValue(String.valueOf(distance)).build();
-            if (distance < 300) {
-                new_polygons.add(Polygon.newBuilder(p).addProperties(color).addProperties(distanceTemp).build());
-            } else if (distance > 500) {
-                new_polygons.add(Polygon.newBuilder(p).addProperties(color2).addProperties(distanceTemp).build());
+            if (distance < radius) {
+                new_polygons.add(Polygon.newBuilder(p).addProperties(land_color).addProperties(distanceTemp).build());
             } else {
-                new_polygons.add(Polygon.newBuilder(p).addProperties(distanceTemp).build());
+                new_polygons.add(Polygon.newBuilder(p).addProperties(ocean_color).addProperties(distanceTemp).build());
             }
         }
 
-        // Keep track of size to make sure doesnt reiterate over neighbouring polygons when size increases
-        int tempSize = new_polygons.size();
-        for (int i = 0; i < tempSize; i++){
-            // List of neighbours of each iteration
-            List<Integer> neighbours = new_polygons.get(i).getNeighborIdxsList();
-            // If polygon has no color
-            if (new_polygons.get(i).getPropertiesList().size() == 1){
-                // If polygon has a neighbour which has color
-                for (int j = 0; j < neighbours.size(); j++){
-                    if (new_polygons.get(neighbours.get(j)).getPropertiesList().size() > 1){
-                        new_polygons.add(Polygon.newBuilder(new_polygons.get(i)).addProperties(color3).build());
-                    }
-                }
-            }
-        }
 
 
 
