@@ -67,8 +67,8 @@ Feature is completed when it is the final version, fully implemented  with no fu
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| F01 | Shapes | Sylvia, Farhan, Abyan | 03/11 |  | Started |
-| F02 | Choice of shape | Sylvia |  |  | Blocked (F01) |
+| F01 | Shapes | Sylvia, Farhan, Abyan | 03/11 | 03/13 | Done |
+| F02 | Choice of shape | Sylvia | 03/14 | 03/14 | Done |
 | F03 | Seeds | Farhan |  |  | Blocked (F01) |
 | F04 | Elevation | Abyan |  |  | Blocked (F01) |
 | F05 | Choice of altimetric profile | Sylvia |  |  | Blocked (F04) |
