@@ -1,15 +1,16 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification.shape;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.list.ListOfTiles;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Land;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Ocean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SquareSpecification implements Shapable{
-    public Mesh buildShape(Mesh inputMesh){
-        List<Polygon> polygons, new_polygons;
-        polygons = inputMesh.getPolygonsList();
-        new_polygons = new ArrayList<>();
+    public ListOfTiles buildShape(Mesh inputMesh){
+        ListOfTiles listOfTiles = new ListOfTiles();
+        List<Polygon> polygons = inputMesh.getPolygonsList();
         List<Vertex> vertices = inputMesh.getVerticesList();
 
         double width = 0, height = 0;
@@ -40,23 +41,19 @@ public class SquareSpecification implements Shapable{
         center_x = width/2;
         center_y = height/2;
 
-        //Colors
-        Property ocean_color = Property.newBuilder().setKey("rgb_color").setValue("51,102,135").build();
-        Property land_color = Property.newBuilder().setKey("rgb_color").setValue("255,231,161").build();
-
-        //Giving polygons color
+        //Adding tiles
         for (Polygon p : polygons){
             Vertex c = vertices.get(p.getCentroidIdx());
             x = c.getX();
             y = c.getY();
             if (Math.abs(center_x-x) < max_dist && Math.abs(center_y-y) < max_dist){
-                new_polygons.add(Polygon.newBuilder(p).addProperties(land_color).build());
+                listOfTiles.addTile(p, new Land());
             } else {
-                new_polygons.add(Polygon.newBuilder(p).addProperties(ocean_color).build());
+                listOfTiles.addTile(p, new Ocean());
             }
         }
 
-        //Replace polygons with modified ones
-        return Mesh.newBuilder(inputMesh).addAllPolygons(new_polygons).build();
+        //Return tiles
+        return listOfTiles;
     }
 }
