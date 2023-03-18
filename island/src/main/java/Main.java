@@ -14,7 +14,8 @@ public class Main {
 
         //Build the shape
         Shapable shapableSpec = SpecificationFactory.createShapable(config);
-        Mesh outputMesh = shapableSpec.buildShape(inputMesh);
+        Mesh outputMesh = shapableSpec.buildShape(inputMesh, args);
+
         //Use outputMesh as parameter for subsequent builds
 
         //Additional builds go here

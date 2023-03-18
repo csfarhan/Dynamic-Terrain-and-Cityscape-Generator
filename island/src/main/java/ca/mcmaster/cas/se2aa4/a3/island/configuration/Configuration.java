@@ -13,6 +13,7 @@ public class Configuration {
     public static final String SHAPE = "s";
     public static final String DEBUG = "d";
     public static final String HELP = "help";
+    public static final String SEED = "seed";
 
     private CommandLine cli;
 
@@ -70,6 +71,7 @@ public class Configuration {
         options.addOption(new Option(SHAPE, true, "Shape of the island"));
         options.addOption(new Option(DEBUG, false, "Debug mode"));
         options.addOption(new Option(HELP, false, "print help message"));
+        options.addOption(new Option(SEED, true, "Seed number to generate"));
         return options;
     }
 }
