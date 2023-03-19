@@ -16,11 +16,13 @@ public class Main {
         //Build the shape
         Shapable shapableSpec = SpecificationFactory.createShapable(config);
         Mesh outputMesh = shapableSpec.buildShape(inputMesh, args);
+
+        //Use outputMesh as parameter for subsequent builds
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
         Mesh newMesh = elevatableSpec.applyElevation(outputMesh, args);
-        //Use outputMesh as parameter for subsequent builds
 
         //Additional builds go here
-        new MeshFactory().write(newMesh, config.output());
+
+        new MeshFactory().write(outputMesh, config.output());
     }
 }
