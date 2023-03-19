@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CircleSpecification implements Shapable {
-    public Mesh buildShape(Mesh inputMesh) {
+    public Mesh buildShape(Mesh inputMesh, String[] args) {
 
         List<Polygon> polygons, new_polygons;
         polygons = inputMesh.getPolygonsList();

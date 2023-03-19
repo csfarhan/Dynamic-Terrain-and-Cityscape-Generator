@@ -1,6 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification;
 
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.VolcanoSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.*;
 
 import java.util.HashMap;
@@ -14,6 +16,7 @@ public class SpecificationFactory {
     static {
         bindings.put("circle", CircleSpecification.class);
         bindings.put("square", SquareSpecification.class);
+        bindings.put("volcano", VolcanoSpecification.class);
     }
 
     //Sets up a mesh to obtain its shape
@@ -22,9 +25,22 @@ public class SpecificationFactory {
         try {
             Class klass = bindings.get(options.get(Configuration.SHAPE));
             return (Shapable) klass.getDeclaredConstructor().newInstance();
+
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
+
+    }
+    public static Elevationable createElevationable(Configuration configuration) {
+        Map<String, String> options = configuration.export();
+        try {
+            Class klass = bindings.get(options.get(Configuration.ELEVATION));
+            return (Elevationable) klass.getDeclaredConstructor().newInstance();
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+
     }
     /*
     Note: Shape doesn't take parameters, but if a specification does need a parameter

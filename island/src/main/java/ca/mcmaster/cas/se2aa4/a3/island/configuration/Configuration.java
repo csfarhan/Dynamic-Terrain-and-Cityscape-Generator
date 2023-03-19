@@ -11,6 +11,7 @@ public class Configuration {
     public static final String INPUT = "i";
     public static final String OUTPUT = "o";
     public static final String SHAPE = "s";
+    public static final String ELEVATION = "e";
     public static final String DEBUG = "d";
     public static final String HELP = "help";
 
@@ -68,6 +69,7 @@ public class Configuration {
         options.addOption(new Option(INPUT, true, "Input file (MESH)"));
         options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
         options.addOption(new Option(SHAPE, true, "Shape of the island"));
+        options.addOption(new Option(ELEVATION, true, "Elevation of the island"));
         options.addOption(new Option(DEBUG, false, "Debug mode"));
         options.addOption(new Option(HELP, false, "print help message"));
         return options;
