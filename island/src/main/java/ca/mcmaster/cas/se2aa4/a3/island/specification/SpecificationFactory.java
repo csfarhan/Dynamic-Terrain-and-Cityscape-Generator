@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification;
 
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
+import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.VolcanoSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.*;
@@ -20,11 +21,11 @@ public class SpecificationFactory {
     }
 
     //Sets up a mesh to obtain its shape
-    public static Shapable createShapable(Configuration configuration) {
+    public static Shapable createShapable(Configuration configuration, Seed seed) {
         Map<String, String> options = configuration.export();
         try {
             Class klass = bindings.get(options.get(Configuration.SHAPE));
-            return (Shapable) klass.getDeclaredConstructor().newInstance();
+            return (Shapable) klass.getDeclaredConstructor(Seed.class).newInstance(seed);
 
         } catch (Exception e) {
             throw new IllegalArgumentException(e);

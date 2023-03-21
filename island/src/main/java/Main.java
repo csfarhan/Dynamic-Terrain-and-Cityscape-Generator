@@ -1,6 +1,8 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
+import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.SpecificationFactory;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
@@ -11,17 +13,28 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Configuration config = new Configuration(args);
+        Seed seed;
+        if (config.seedProvided()){
+            seed = new Seed(config.seed());
+        } else {
+            seed = new Seed();
+        }
         Mesh inputMesh = new MeshFactory().read(config.input());
+        Mesh outputMesh;
+
+        TerrainMesh terrainMesh = new TerrainMesh(inputMesh);
 
         //Build the shape
-        Shapable shapableSpec = SpecificationFactory.createShapable(config);
-        Mesh outputMesh = shapableSpec.buildShape(inputMesh, args);
+        Shapable shapableSpec = SpecificationFactory.createShapable(config, seed);
+        terrainMesh = shapableSpec.buildShape(terrainMesh);
+        //Use listOfTiles as parameter for subsequent builds
 
-        //Use outputMesh as parameter for subsequent builds
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
-        Mesh newMesh = elevatableSpec.applyElevation(outputMesh, args);
+        terrainMesh = elevatableSpec.applyElevation(terrainMesh);
 
-        //Additional builds go here
+        //Final rebuild of Mesh
+        terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented
+        outputMesh = terrainMesh.addColor(inputMesh);
 
         new MeshFactory().write(outputMesh, config.output());
     }

@@ -1,19 +1,24 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification.elevation;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class VolcanoSpecification implements Elevationable {
 
-    public Mesh applyElevation(Mesh inputMesh, String[] args) {
+    public TerrainMesh applyElevation(TerrainMesh terrainMesh) {
+        List<Tile> tiles = terrainMesh.getTiles();
+        List<Edge> edges = terrainMesh.getEdges();
+        List<Point> points = terrainMesh.getPoints();
 
-        List<Polygon> polygons = inputMesh.getPolygonsList();
-        List<Polygon> modifiedPolygons = new ArrayList<>(polygons.size());
-        List<Vertex> vertices = inputMesh.getVerticesList();
-        List<Vertex> modifiedVertices = new ArrayList<>(vertices.size());
-        List<Segment> segments = inputMesh.getSegmentsList();
+        //List<Polygon> modifiedPolygons = new ArrayList<>(polygons.size());
+        //List<Vertex> modifiedVertices = new ArrayList<>(vertices.size());
 
         double minX = Double.POSITIVE_INFINITY;
         double minY = Double.POSITIVE_INFINITY;
@@ -21,9 +26,9 @@ public class VolcanoSpecification implements Elevationable {
         double maxY = Double.NEGATIVE_INFINITY;
 
         // Determine the size of the mesh
-        for (Vertex v : vertices) {
-            double x = v.getX();
-            double y = v.getY();
+        for (Point p : points) {
+            double x = p.getX();
+            double y = p.getY();
             minX = Math.min(minX, x);
             minY = Math.min(minY, y);
             maxX = Math.max(maxX, x);
@@ -38,74 +43,55 @@ public class VolcanoSpecification implements Elevationable {
 
         int numRings = (rand.nextInt(4) + 3);
         // Apply elevation profile to vertices
-        for (Vertex vertex : vertices) {
-            double distance = getDistanceToCenter(vertex, centerX, centerY);
+        for (Point p : points) {
+            double distance = getDistanceToCenter(p, centerX, centerY);
             double elevation = 1 - (distance / radius);
             elevation = Math.min(Math.max(elevation, 0.0), 1.0);
-            String Elevation = Double.toString(elevation);
-            Property elevationProperty = Property.newBuilder()
-                    .setKey("elevation")
-                    .setValue(Elevation)
-                    .build();
-            modifiedVertices.add(Vertex.newBuilder(vertex).addProperties(elevationProperty).build());
+            p.setElevation(elevation);
         }
 
         // Apply elevation profile to polygons
-        for (Polygon polygon : polygons) {
-            boolean isLand = false;
-            for (Property property : polygon.getPropertiesList()) {
-                if (property.getKey().equals("rgb_color") && !property.getValue().equals("51,102,135")) {
-                    isLand = true;
-                    break;
-                }
-            }
-
-            if (isLand) {
+        for (Tile t : tiles) {
+            if (t.getBaseType().isLand()) {
                 double elevation = 0;
-                int segmentCount = 0;
-                for (int i : polygon.getSegmentIdxsList()) {
-                    segmentCount++;
-                    for (Property p : modifiedVertices.get(segments.get(i).getV1Idx()).getPropertiesList()) {
-                        if (p.getKey().equals("elevation")) {
-                            elevation += Double.parseDouble(p.getValue());
-                        }
-                    }
-                    for (Property p : modifiedVertices.get(segments.get(i).getV2Idx()).getPropertiesList()) {
-                        if (p.getKey().equals("elevation")) {
-                            elevation += Double.parseDouble(p.getValue());
-                        }
-                    }
+                int pointCount = 0;
+                for (Point p : t.getPointsOfTile()) {
+                    elevation += p.getElevation();
+                    pointCount++;
                 }
-                double avgElevation = elevation / segmentCount;
+                double avgElevation = elevation / pointCount;
                 int ring = (int) (numRings * avgElevation);
+                /*
                 Property colorProperty = Property.newBuilder()
                         .setKey("rgb_color")
                         .setValue(getColorForRing(ring, numRings))
                         .build();
 
-                // Create new polygon with color properties
-                modifiedPolygons.add(Polygon.newBuilder(polygon)
-                        .clearProperties()
-                        .addProperties(colorProperty)
-                        .build());
+                 */
 
-            } else {
-                modifiedPolygons.add(polygon);
+                //INSTEAD: Just need to set elevation, fix calculateBiome() to use a range of elevation to return a biome colour
             }
+
         }
 
         // Replace polygons with modified ones
+        /*
         return Mesh.newBuilder(inputMesh)
                 .clearPolygons()
                 .addAllPolygons(modifiedPolygons)
                 .clearVertices()
                 .addAllVertices(modifiedVertices)
                 .build();
+
+         */
+
+        //Return modified list of tiles
+        return terrainMesh;
     }
 
-    private double getDistanceToCenter(Vertex vertex, double centerX, double centerY) {
-        double dx = vertex.getX() - centerX;
-        double dy = vertex.getY() - centerY;
+    private double getDistanceToCenter(Point p, double centerX, double centerY) {
+        double dx = p.getX() - centerX;
+        double dy = p.getY() - centerY;
         return Math.sqrt(dx * dx + dy * dy);
     }
 

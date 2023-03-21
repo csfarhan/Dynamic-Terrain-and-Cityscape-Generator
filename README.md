@@ -53,7 +53,7 @@ Note: PDF versions of the SVG files were created with `rsvg-convert`.
 
 Feature is completed when it is the final version, fully implemented  with no further reiterations required.
 
-### A1 Product Backlog
+### A2 Product Backlog
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
@@ -63,7 +63,7 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F04 | Rendering with varying thickness and transparency values | Abyan, Farhan | 02/23/2023 | 02/26/2023 | Done |
 | F05 | Debug mode to set all colours to a consistent scheme | Sylvia | 02/23/2023 | 02/24/2023 | Done |
 
-### A2 Product Backlog
+### A3 Product Backlog
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|

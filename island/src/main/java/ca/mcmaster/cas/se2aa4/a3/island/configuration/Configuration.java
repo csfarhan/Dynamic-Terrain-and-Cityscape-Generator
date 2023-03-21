@@ -64,6 +64,10 @@ public class Configuration {
 
     public boolean debug() { return this.cli.hasOption(DEBUG); }
 
+    public boolean seedProvided() { return this.cli.hasOption(SEED); }
+
+    public String seed() { return this.cli.getOptionValue(SEED); }
+
     private Options options() {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file (MESH)"));
