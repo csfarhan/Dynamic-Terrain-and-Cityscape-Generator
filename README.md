@@ -69,7 +69,7 @@ Feature is completed when it is the final version, fully implemented  with no fu
 |:--:|---------------|------|-------|-----|--------|
 | F01 | Shapes | Sylvia, Farhan, Abyan | 03/11 | 03/13 | Done |
 | F02 | Choice of shape | Sylvia | 03/14 | 03/14 | Done |
-| F03 | Seeds | Farhan |  |  | Blocked (F01) |
+| F03 | Seeds | Farhan | 03/18 | 03/18 | Done |
 | F04 | Elevation | Abyan |  |  | Blocked (F01) |
 | F05 | Choice of altimetric profile | Sylvia |  |  | Blocked (F04) |
 | F06 | Lakes | Farhan |  |  | Blocked (F04) |
