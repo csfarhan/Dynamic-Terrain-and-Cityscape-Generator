@@ -1,17 +1,26 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification.shape;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Land;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Ocean;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 
 import java.util.List;
 
 public class SquareSpecification implements Shapable{
 
+    private final long seed;
+
+    //Constructor
+    public SquareSpecification(Seed seed){
+        this.seed = seed.getSeed();
+    }
+
     public TerrainMesh buildShape(TerrainMesh terrainMesh){
-        List<Polygon> polygons = terrainMesh.getPolygonsList(); //Update to .getTiles and use Tile objects
-        List<Vertex> vertices = terrainMesh.getVerticesList(); //Update to .getPoints and use Point objects
+        List<Tile> tiles = terrainMesh.getTiles();
+        List<Point> points = terrainMesh.getPoints();
 
         double width = 0, height = 0;
         double x, y;
@@ -19,9 +28,9 @@ public class SquareSpecification implements Shapable{
         double center_x, center_y;
 
         //Estimate size of mesh by iterating over all vertices and determining max x/y
-        for (Vertex v : vertices){
-            x = v.getX();
-            y = v.getY();
+        for (Point p : points){
+            x = p.getX();
+            y = p.getY();
             if (x > width){
                 width = x;
             }
@@ -42,14 +51,14 @@ public class SquareSpecification implements Shapable{
         center_y = height/2;
 
         //Adding tiles
-        for (Polygon p : polygons){
-            Vertex c = vertices.get(p.getCentroidIdx());
+        for (Tile t : tiles){
+            Point c = t.getCentroid();
             x = c.getX();
             y = c.getY();
             if (Math.abs(center_x-x) < max_dist && Math.abs(center_y-y) < max_dist){
-                terrainMesh.setTile(p, new Land());
+                t.setBaseType(new Land());
             } else {
-                terrainMesh.setTile(p, new Ocean());
+                t.setBaseType(new Ocean());
             }
         }
 

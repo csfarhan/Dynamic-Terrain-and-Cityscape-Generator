@@ -3,9 +3,8 @@ package ca.mcmaster.cas.se2aa4.a3.island.adt;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.profile.*;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.BaseType;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.WhittakerDiagram;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,27 +25,14 @@ public class TerrainMesh {
             addEdge(s, points);
         }
         for (Polygon p : sourcePolygons){
-            addTile(p, edges);
+            addTile(p, edges, points);
         }
     }
 
     // *** TILES ***
 
-    public void addTile(Polygon foundation, List<Edge> edgeList){
-        tiles.add(new Tile(foundation, edgeList));
-    }
-
-    public Tile getTile(Polygon foundation){
-        for (Tile t : tiles){
-            if (t.getFoundationPolygon().equals(foundation)){
-                return t;
-            }
-        }
-        return null;
-    }
-
-    public void setTile(Polygon foundation, BaseType baseType) {
-        this.getTile(foundation).setBaseType(baseType);
+    public void addTile(Polygon foundation, List<Edge> edgeList, List<Point> pointList){
+        tiles.add(new Tile(foundation, edgeList, pointList));
     }
 
     /*
@@ -60,9 +46,15 @@ public class TerrainMesh {
 
      */
 
-    public void calculateBiome(WhittakerProfile profile){
+    public void calculateBiome(WhittakerDiagram diagram){
         for (Tile t : tiles){
-            t.calculateBiome(profile);
+            t.calculateBiome(diagram);
+        }
+    }
+
+    public void calculateAltitude(){
+        for (Tile t : tiles){
+            t.calculateAltitude();
         }
     }
 
@@ -115,6 +107,19 @@ public class TerrainMesh {
                 .addAllSegments(newSegments)
                 .clearVertices()
                 .addAllVertices(newVertices)
+                .build();
+    }
+
+    public Mesh addAltitudeColor(Mesh inputMesh){
+        List<Polygon> newPolygons = new ArrayList<>();
+        for (Tile t : tiles){
+            Polygon p = t.getFoundationPolygon();
+            newPolygons.add(Polygon.newBuilder(p).addProperties(t.getAltitudeColor()).build());
+        }
+
+        return Mesh.newBuilder(inputMesh)
+                .clearPolygons()
+                .addAllPolygons(newPolygons)
                 .build();
     }
 }

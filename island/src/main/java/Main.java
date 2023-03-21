@@ -33,8 +33,22 @@ public class Main {
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
 
         //Final rebuild of Mesh
-        terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented
-        outputMesh = terrainMesh.addColor(inputMesh);
+        if (config.heatmapProvided()){
+            switch (config.heatmap()){
+                case "altitude":
+                    terrainMesh.calculateAltitude();
+                    outputMesh = terrainMesh.addAltitudeColor(inputMesh);
+                    break;
+                //Add more heatmap options as more cases
+                default:
+                    terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented
+                    outputMesh = terrainMesh.addColor(inputMesh);
+                    break;
+            }
+        } else {
+            terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented
+            outputMesh = terrainMesh.addColor(inputMesh);
+        }
 
         new MeshFactory().write(outputMesh, config.output());
     }
