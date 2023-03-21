@@ -16,6 +16,11 @@ public class Main {
         Seed seed;
         if (config.seedProvided()){
             seed = new Seed(config.seed());
+            // Check of seed has a zero or one and if true then increase to nearest possible seed
+            // Because 1 or 10 or 11 or 0 are not valid seeds
+            if (seed.containsZeroOrOne(seed.getSeed()) || seed.getSeed() == 0){
+                seed = new Seed(seed.validateSeed(seed.getSeed()));
+            }
         } else {
             seed = new Seed();
         }

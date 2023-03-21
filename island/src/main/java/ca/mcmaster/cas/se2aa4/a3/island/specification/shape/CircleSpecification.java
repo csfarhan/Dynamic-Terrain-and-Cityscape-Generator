@@ -41,18 +41,18 @@ public class CircleSpecification implements Shapable {
         }
 
         //Using the seed to randomize
+        int last = (int) seed % 10;
         int secondLast = (int) (seed / 10) % 10;
-        height = height / (seed % 10);
-        width = width / (secondLast);
         System.out.println(seed+", "+height+", "+width);
 
         //Determine radius
         if (width < height){
-            radius = width*0.35;
+            radius = width*(1.0/last);
         } else {
-            radius = height*0.35;
+            radius = height*(1.0/secondLast);
         }
 
+        System.out.println(radius);
         //Adding tiles
         for (Tile t : tiles) {
             double distance = Math.sqrt(Math.pow((t.getCentroid().getX() - width/2), 2) + Math.pow((t.getCentroid().getY() - height/2), 2));
