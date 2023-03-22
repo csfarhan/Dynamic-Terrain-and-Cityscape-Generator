@@ -35,6 +35,12 @@ public class TerrainMesh {
         tiles.add(new Tile(foundation, edgeList, pointList));
     }
 
+    public void addNeighbours(){
+        for (Tile t : tiles){
+            t.addNeighbours(tiles);
+        }
+    }
+
     /*
     public void calculateAltitude(AltimetricProfile profile, int seed){
         //For each tile in tiles, do calculation and call setAltitude
@@ -60,6 +66,18 @@ public class TerrainMesh {
 
     public List<Tile> getTiles() {
         return tiles;
+    }
+
+    //Note: Indices will no longer match with the list of all tiles
+    //Use the pointers a tile already has
+    public List<Tile> getIslandTiles() {
+        List<Tile> islandTiles = new ArrayList<>();
+        for (Tile t : tiles){
+            if (t.getBaseType().isLand()){
+                islandTiles.add(t);
+            }
+        }
+        return islandTiles;
     }
 
     // *** EDGES ***
@@ -115,6 +133,19 @@ public class TerrainMesh {
         for (Tile t : tiles){
             Polygon p = t.getFoundationPolygon();
             newPolygons.add(Polygon.newBuilder(p).addProperties(t.getAltitudeColor()).build());
+        }
+
+        return Mesh.newBuilder(inputMesh)
+                .clearPolygons()
+                .addAllPolygons(newPolygons)
+                .build();
+    }
+
+    public Mesh addAquiferColor(Mesh inputMesh){
+        List<Polygon> newPolygons = new ArrayList<>();
+        for (Tile t : tiles){
+            Polygon p = t.getFoundationPolygon();
+            newPolygons.add(Polygon.newBuilder(p).addProperties(t.getAquiferColor()).build());
         }
 
         return Mesh.newBuilder(inputMesh)

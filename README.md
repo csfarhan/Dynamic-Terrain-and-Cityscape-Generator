@@ -29,8 +29,7 @@ One can run the generator with `-help` as option to see the different command li
 ### Terrain generation of a mesh
 
 ```
-java -jar island/island.jar -i img/grid.mesh -o img/gridisland.mesh -s circle
-java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle
+java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle -e volcano
 ```
 
 ### Visualizing a mesh, (regular or debug mode)
@@ -41,7 +40,6 @@ java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid_debug.svg -x
 java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular.svg
 java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular_debug.svg -x
 
-java -jar visualizer/visualizer.jar -i img/gridisland.mesh -o img/gridisland.svg
 java -jar visualizer/visualizer.jar -i img/irregularisland.mesh -o img/irregularisland.svg
 ```
 
@@ -70,11 +68,11 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F01 | Shapes | Sylvia, Farhan, Abyan | 03/11 | 03/13 | Done |
 | F02 | Choice of shape | Sylvia | 03/14 | 03/14 | Done |
 | F03 | Seeds | Farhan | 03/18 | 03/18 | Done |
-| F04 | Elevation | Abyan |  |  | Blocked (F01) |
-| F05 | Choice of altimetric profile | Sylvia |  |  | Blocked (F04) |
-| F06 | Lakes | Farhan |  |  | Blocked (F04) |
+| F04 | Elevation | Abyan | 03/15 | 03/21 | Done |
+| F05 | Choice of altimetric profile | Sylvia | 03/20 |  | Started |
+| F06 | Lakes | Farhan | 03/21 |  | Started |
 | F07 | Choice of number of lakes | Abyan |  |  | Blocked (F06) |
-| F08 | Aquifers | Sylvia |  |  | Blocked (F06) |
+| F08 | Aquifers | Sylvia | 03/22 |  | Started |
 | F09 | Choice of number of aquifers | Abyan |  |  | Blocked (F08) |
 | F10 | Rivers | Farhan |  |  | Blocked (F06) |
 | F11 | Choice of number of rivers | Sylvia |  |  | Blocked (F10) |

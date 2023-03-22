@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Altitude;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Aquifer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ public class Tile {
     It also has additional traits:
     - elevation (average of its vertices and based on altimetric profile)
     - absorptionCoeff (based on soil absorption profile)
-    - hasAquifer (true or false)
+    - Aquifer (true or false)
     - moisture (represents the outgoing moisture i.e. for a lake or tile with aquifer)
     - absorption (represents absorbed moisture from surroundings)
     - baseType (ocean, lake or land)
@@ -31,11 +32,12 @@ public class Tile {
     private final List<Edge> edgesOfTile = new ArrayList<>();
     private final Set<Point> pointsOfTile = new HashSet<>();
     private final Point centroid;
+    private final List<Tile> neighbours = new ArrayList<>();
     private BaseType baseType;
     private Biome biome = Biome.OCEAN; //Ocean by default
     private Altitude altitude = Altitude.SEA_LEVEL; //Ocean by default
     private double elevation = 0;
-    private boolean hasAquifer = false;
+    private Aquifer aquifer = Aquifer.FALSE; //No aquifer by default
     private double moisture = 0;
     private double absorption = 0;
 
@@ -49,6 +51,13 @@ public class Tile {
         centroid = pointList.get(foundation.getCentroidIdx());
     }
 
+    //Second 'constructor' for after all tiles have been instantiated
+    public void addNeighbours(List<Tile> allTiles){
+        for (int i : foundation.getNeighborIdxsList()){
+            neighbours.add(allTiles.get(i));
+        }
+    }
+
     //Called by default ColorAdder
     public Property getDefaultColor(){
         return Property.newBuilder().setKey("rgb_color").setValue(biome.getValue()).build();
@@ -59,12 +68,14 @@ public class Tile {
         return Property.newBuilder().setKey("rgb_color").setValue(altitude.getValue()).build();
     }
 
+    //Called by aquifer heatmap ColorAdder
+    public Property getAquiferColor(){
+        return Property.newBuilder().setKey("rgb_color").setValue(aquifer.getValue()).build();
+    }
+
     /*
     //Called by moisture heatmap ColorAdder
     public Property getMoistureColor(){}
-
-    //Called by aquifer debug tool ColorAdder
-    public Property getAquiferColor(){}
      */
 
     public Polygon getFoundationPolygon() { return foundation; }
@@ -83,6 +94,8 @@ public class Tile {
 
     public BaseType getBaseType() { return baseType; }
 
+    public Aquifer getAquifer() { return aquifer; }
+
     public double getMoisture() {
         return moisture;
     }
@@ -95,8 +108,8 @@ public class Tile {
     }
 
     //Called when creating aquifers
-    public void setHasAquifer(boolean hasAquifer) {
-        this.hasAquifer = hasAquifer;
+    public void setAquifer(Aquifer aquifer) {
+        this.aquifer = aquifer;
     }
 
     //Called when a Tile is now a Lake or has an aquifer

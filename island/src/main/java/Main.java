@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.SpecificationFactory;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.aquifer.AquiferSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
 
@@ -37,12 +38,18 @@ public class Main {
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
 
+        AquiferSpecification aquiferSpec = new AquiferSpecification(seed, 15);
+        terrainMesh = aquiferSpec.addAquifers(terrainMesh);
+
         //Final rebuild of Mesh
         if (config.heatmapProvided()){
             switch (config.heatmap()){
                 case "altitude":
                     terrainMesh.calculateAltitude();
                     outputMesh = terrainMesh.addAltitudeColor(inputMesh);
+                    break;
+                case "aquifer":
+                    outputMesh = terrainMesh.addAquiferColor(inputMesh);
                     break;
                 //Add more heatmap options as more cases
                 default:
