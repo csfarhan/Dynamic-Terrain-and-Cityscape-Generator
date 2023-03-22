@@ -39,11 +39,14 @@ public class SquareSpecification implements Shapable{
             }
         }
 
+        int last = (int) seed % 10;
+        int secondLast = (int) (seed / 10) % 10;
+
         //Determine max distance from center --> half the side length of square island
         if (width < height){
-            max_dist = width*0.35;
+            max_dist = width*(1.0/last);
         } else {
-            max_dist = height*0.35;
+            max_dist = height*(1.0/secondLast);
         }
 
         //Estimating center of grid
