@@ -16,6 +16,7 @@ public class Configuration {
     public static final String SEED = "seed";
     public static final String ELEVATION = "e";
     public static final String HEATMAP = "heatmap";
+    public static final String LAKES = "lakes";
     private CommandLine cli;
 
     //Constructor
@@ -82,6 +83,7 @@ public class Configuration {
         options.addOption(new Option(HELP, false, "print help message"));
         options.addOption(new Option(SEED, true, "Seed number to generate"));
         options.addOption(new Option(ELEVATION, true, "Elevation of the island"));
+        options.addOption(new Option(LAKES, true, "Number of lakes on the island"));
         options.addOption(new Option(HEATMAP, true, "Display a heatmap instead of biomes"));
         return options;
     }
