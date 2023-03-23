@@ -11,6 +11,7 @@ import java.util.List;
 
 public class TerrainMesh {
     List<Tile> tiles = new ArrayList<>();
+    List<Tile> islandTiles = new ArrayList<>();
     List<Edge> edges = new ArrayList<>();
     List<Point> points = new ArrayList<>();
 
@@ -41,6 +42,16 @@ public class TerrainMesh {
         }
     }
 
+    //Note: Indices will no longer match with the list of all tiles
+    //Use the pointers a tile already has
+    public void addIslandTiles() {
+        for (Tile t : tiles){
+            if (t.getBaseType().isLand()){
+                islandTiles.add(t);
+            }
+        }
+    }
+
     /*
     public void calculateAltitude(AltimetricProfile profile, int seed){
         //For each tile in tiles, do calculation and call setAltitude
@@ -68,15 +79,7 @@ public class TerrainMesh {
         return tiles;
     }
 
-    //Note: Indices will no longer match with the list of all tiles
-    //Use the pointers a tile already has
     public List<Tile> getIslandTiles() {
-        List<Tile> islandTiles = new ArrayList<>();
-        for (Tile t : tiles){
-            if (t.getBaseType().isLand()){
-                islandTiles.add(t);
-            }
-        }
         return islandTiles;
     }
 

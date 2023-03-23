@@ -17,6 +17,7 @@ public class Configuration {
     public static final String ELEVATION = "e";
     public static final String HEATMAP = "heatmap";
     public static final String LAKES = "lakes";
+    public static final String AQUIFERS = "aquifers";
     private CommandLine cli;
 
     //Constructor
@@ -67,14 +68,20 @@ public class Configuration {
     public boolean debug() { return this.cli.hasOption(DEBUG); }
 
     public boolean seedProvided() { return this.cli.hasOption(SEED); }
-    public boolean lakesProvided() {return this.cli.hasOption(LAKES); }
 
     public String seed() { return this.cli.getOptionValue(SEED); }
-    public int lakes() {return Integer.parseInt(this.cli.getOptionValue(LAKES));}
 
     public boolean heatmapProvided() { return this.cli.hasOption(HEATMAP); }
 
     public String heatmap() { return this.cli.getOptionValue(HEATMAP); }
+
+    public boolean lakesProvided() {return this.cli.hasOption(LAKES); }
+
+    public int lakes() {return Integer.parseInt(this.cli.getOptionValue(LAKES));}
+
+    public boolean numAquifersProvided() { return this.cli.hasOption(AQUIFERS); }
+
+    public int numAquifers() { return Integer.parseInt(this.cli.getOptionValue(AQUIFERS)); }
 
     private Options options() {
         Options options = new Options();
@@ -86,6 +93,7 @@ public class Configuration {
         options.addOption(new Option(SEED, true, "Seed number to generate"));
         options.addOption(new Option(ELEVATION, true, "Elevation of the island"));
         options.addOption(new Option(LAKES, true, "Number of lakes on the island"));
+        options.addOption(new Option(AQUIFERS, true, "Number of aquifers on the island"));
         options.addOption(new Option(HEATMAP, true, "Display a heatmap instead of biomes"));
         return options;
     }

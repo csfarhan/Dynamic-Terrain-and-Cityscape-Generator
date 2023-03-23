@@ -19,11 +19,9 @@ public class AquiferSpecification {
     }
 
     public TerrainMesh addAquifers(TerrainMesh terrainMesh){
-        //Maybe we have a new getTiles that is just getIslandTiles()
         List<Tile> tiles = terrainMesh.getIslandTiles();
-        //Let's pretend tiles is only island tiles for now
 
-        //Seed represents how much we count, whenever we get to the next 100,
+        //Seed represents how much we count, whenever we get to the next 1000,
         //we make a tile an aquifer
         long x = seed;
         int n = 0;

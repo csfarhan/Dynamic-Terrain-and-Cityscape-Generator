@@ -10,6 +10,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.specification.lake.LakeSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Main {
 
@@ -29,14 +30,19 @@ public class Main {
         Mesh inputMesh = new MeshFactory().read(config.input());
         Mesh outputMesh;
 
+        //Random Number Generator for any # features not provided by user
+        Random rng = new Random();
+
+        //TerrainMesh to work with
         TerrainMesh terrainMesh = new TerrainMesh(inputMesh);
         terrainMesh.addNeighbours();
 
         //Build the shape
         Shapable shapableSpec = SpecificationFactory.createShapable(config, seed);
         terrainMesh = shapableSpec.buildShape(terrainMesh);
-        //Use listOfTiles as parameter for subsequent builds
+        terrainMesh.addIslandTiles();
 
+        //Apply elevation
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
 
@@ -45,10 +51,15 @@ public class Main {
             terrainMesh = lakeSpec.addLakes(terrainMesh);
         }
 
-        /*
-        AquiferSpecification aquiferSpec = new AquiferSpecification(seed, 15);
+        //Add aquifers
+        AquiferSpecification aquiferSpec;
+        if (config.numAquifersProvided()){
+            aquiferSpec = new AquiferSpecification(seed, config.numAquifers());
+        } else {
+            aquiferSpec = new AquiferSpecification(seed, rng.nextInt(15));
+        }
         terrainMesh = aquiferSpec.addAquifers(terrainMesh);
-         */
+
 
         //Final rebuild of Mesh
         if (config.heatmapProvided()){

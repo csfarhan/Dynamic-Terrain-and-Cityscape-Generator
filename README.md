@@ -69,14 +69,14 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F02 | Choice of shape | Sylvia | 03/14 | 03/14 | Done |
 | F03 | Seeds | Farhan | 03/18 | 03/18 | Done |
 | F04 | Elevation | Abyan | 03/15 | 03/21 | Done |
-| F05 | Choice of altimetric profile | Sylvia | 03/20 |  | Started |
+| F05 | Choice of altimetric profile | Abyan | 03/20 |  | Started |
 | F06 | Lakes | Farhan | 03/21 | 03/22 | Done |
 | F07 | Choice of number of lakes | Farhan | 03/22 | 03/22 | Done |
-| F08 | Aquifers | Sylvia | 03/22 |  | Started |
-| F09 | Choice of number of aquifers | Abyan |  |  | Blocked (F08) |
+| F08 | Aquifers | Sylvia | 03/22 | 03/22 | Done |
+| F09 | Choice of number of aquifers | Sylvia | 03/22 | 03/22 | Done |
 | F10 | Rivers | Farhan |  |  | Blocked (F06) |
 | F11 | Choice of number of rivers | Sylvia |  |  | Blocked (F10) |
-| F12 | Soil moisture | Farhan |  |  | Blocked (F06, F08, F10) |
+| F12 | Soil moisture | Abyan |  |  | Blocked (F06, F08, F10) |
 | F13 | Choice of soil absorption profile | Abyan |  |  | Blocked (F12) |
 | F14 | Biomes | Sylvia |  |  | Blocked (F12) |
 | F15 | Choice of Whittaker diagram | Farhan |  |  | Blocked (F14) |
