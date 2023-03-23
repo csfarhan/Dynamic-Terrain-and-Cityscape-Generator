@@ -99,6 +99,7 @@ public class Tile {
     public double getMoisture() {
         return moisture;
     }
+    public List<Tile> getNeighbours(){return neighbours;}
 
     public void setBaseType(BaseType baseType) { this.baseType = baseType; }
 

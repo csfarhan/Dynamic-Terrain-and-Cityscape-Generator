@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.SpecificationFactory;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.aquifer.AquiferSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.lake.LakeSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class Main {
         Mesh outputMesh;
 
         TerrainMesh terrainMesh = new TerrainMesh(inputMesh);
+        terrainMesh.addNeighbours();
 
         //Build the shape
         Shapable shapableSpec = SpecificationFactory.createShapable(config, seed);
@@ -38,8 +40,15 @@ public class Main {
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
 
+        if (config.lakesProvided()){
+            LakeSpecification lakeSpec = new LakeSpecification(seed, config.lakes());
+            terrainMesh = lakeSpec.addLakes(terrainMesh);
+        }
+
+        /*
         AquiferSpecification aquiferSpec = new AquiferSpecification(seed, 15);
         terrainMesh = aquiferSpec.addAquifers(terrainMesh);
+         */
 
         //Final rebuild of Mesh
         if (config.heatmapProvided()){

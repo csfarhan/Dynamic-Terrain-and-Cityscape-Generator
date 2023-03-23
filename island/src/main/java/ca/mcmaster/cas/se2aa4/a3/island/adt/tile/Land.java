@@ -12,4 +12,7 @@ public class Land implements BaseType{
     public boolean isLand() {
         return true;
     }
+
+    @Override
+    public boolean isLake(){return false;}
 }

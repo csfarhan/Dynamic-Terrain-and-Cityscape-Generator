@@ -70,8 +70,8 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F03 | Seeds | Farhan | 03/18 | 03/18 | Done |
 | F04 | Elevation | Abyan | 03/15 | 03/21 | Done |
 | F05 | Choice of altimetric profile | Sylvia | 03/20 |  | Started |
-| F06 | Lakes | Farhan | 03/21 |  | Started |
-| F07 | Choice of number of lakes | Abyan |  |  | Blocked (F06) |
+| F06 | Lakes | Farhan | 03/21 | 03/22 | Done |
+| F07 | Choice of number of lakes | Farhan | 03/22 | 03/22 | Done |
 | F08 | Aquifers | Sylvia | 03/22 |  | Started |
 | F09 | Choice of number of aquifers | Abyan |  |  | Blocked (F08) |
 | F10 | Rivers | Farhan |  |  | Blocked (F06) |

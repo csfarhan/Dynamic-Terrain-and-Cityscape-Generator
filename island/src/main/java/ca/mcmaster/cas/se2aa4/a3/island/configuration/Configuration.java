@@ -67,8 +67,10 @@ public class Configuration {
     public boolean debug() { return this.cli.hasOption(DEBUG); }
 
     public boolean seedProvided() { return this.cli.hasOption(SEED); }
+    public boolean lakesProvided() {return this.cli.hasOption(LAKES); }
 
     public String seed() { return this.cli.getOptionValue(SEED); }
+    public int lakes() {return Integer.parseInt(this.cli.getOptionValue(LAKES));}
 
     public boolean heatmapProvided() { return this.cli.hasOption(HEATMAP); }
 
