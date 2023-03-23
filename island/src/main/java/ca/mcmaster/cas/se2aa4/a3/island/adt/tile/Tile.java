@@ -99,6 +99,7 @@ public class Tile {
     public double getMoisture() {
         return moisture;
     }
+    public double getElevation() {return elevation;}
     public List<Tile> getNeighbours(){return neighbours;}
 
     public void setBaseType(BaseType baseType) { this.baseType = baseType; }
@@ -145,8 +146,10 @@ public class Tile {
             altitude = Altitude.LOW;
         } else if (elevation>0.2){
             altitude = Altitude.VERY_LOW;
-        } else if (elevation>0) {
+        } else if (elevation>0.05) {
             altitude = Altitude.BEACH;
+        }else if( elevation>0){
+            altitude = Altitude.LAKE;
         }
     }
 

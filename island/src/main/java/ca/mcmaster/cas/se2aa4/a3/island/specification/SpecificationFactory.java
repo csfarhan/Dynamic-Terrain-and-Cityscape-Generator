@@ -3,6 +3,8 @@ package ca.mcmaster.cas.se2aa4.a3.island.specification;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.HillSpecification;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.LagoonSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.VolcanoSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.*;
 
@@ -18,6 +20,8 @@ public class SpecificationFactory {
         bindings.put("circle", CircleSpecification.class);
         bindings.put("square", SquareSpecification.class);
         bindings.put("volcano", VolcanoSpecification.class);
+        bindings.put("hill", HillSpecification.class);
+        bindings.put("lagoon", LagoonSpecification.class);
     }
 
     //Sets up a mesh to obtain its shape

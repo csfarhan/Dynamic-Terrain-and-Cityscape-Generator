@@ -38,7 +38,7 @@ public class VolcanoSpecification implements Elevationable {
         for (Point p : points) {
             double distance = getDistanceToCenter(p, centerX, centerY);
             double elevation = 1 - (distance / radius);
-            elevation = Math.min(Math.max(elevation, 0.0), 1.0);
+            elevation = Math.min(Math.max(elevation, 0.06), 1.0);
             p.setElevation(elevation);
         }
 
