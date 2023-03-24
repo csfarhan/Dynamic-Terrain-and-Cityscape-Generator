@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a3.island.adt;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.river.RiverPath;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.WhittakerDiagram;
 
@@ -20,27 +21,27 @@ public class TerrainMesh {
         List<Segment> sourceSegments = inputMesh.getSegmentsList();
         List<Vertex> sourceVertices = inputMesh.getVerticesList();
         for (Vertex v : sourceVertices){
-            addPoint(v);
+            points.add(new Point(v));
         }
         for (Segment s : sourceSegments){
-            addEdge(s, points);
+            edges.add(new Edge(s, points));
         }
         for (Polygon p : sourcePolygons){
-            addTile(p, edges, points);
+            tiles.add(new Tile(p, edges, points));
+        }
+
+        //Adding neighbour tiles to each tile
+        for (Tile t : tiles){
+            t.addNeighbours(tiles);
+        }
+
+        //Adding outgoing edges to each point
+        for (Point p : points){
+            p.addOutgoingEdges(edges);
         }
     }
 
     // *** TILES ***
-
-    public void addTile(Polygon foundation, List<Edge> edgeList, List<Point> pointList){
-        tiles.add(new Tile(foundation, edgeList, pointList));
-    }
-
-    public void addNeighbours(){
-        for (Tile t : tiles){
-            t.addNeighbours(tiles);
-        }
-    }
 
     //Note: Indices will no longer match with the list of all tiles
     //Use the pointers a tile already has
@@ -85,17 +86,11 @@ public class TerrainMesh {
 
     // *** EDGES ***
 
-    public void addEdge(Segment foundation, List<Point> pointList){ edges.add(new Edge(foundation, pointList));}
-
     public List<Edge> getEdges() {
         return edges;
     }
 
     // *** POINTS ***
-
-    public void addPoint(Vertex foundation){
-        points.add(new Point(foundation));
-    }
 
     public List<Point> getPoints() {
         return points;
@@ -112,7 +107,7 @@ public class TerrainMesh {
         List<Segment> newSegments = new ArrayList<>();
         for (Edge e : edges){
             Segment s = e.getFoundationSegment();
-            newSegments.add(Segment.newBuilder(s).addProperties(e.getDefaultColor()).build());
+            newSegments.add(Segment.newBuilder(s).addProperties(e.getDefaultColor()).addProperties(e.getThickness()).build());
         }
 
         List<Vertex> newVertices = new ArrayList<>();

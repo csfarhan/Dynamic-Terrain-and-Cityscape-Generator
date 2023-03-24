@@ -15,4 +15,9 @@ public class Land implements BaseType{
 
     @Override
     public boolean isLake(){return false;}
+
+    @Override
+    public boolean isOcean() {
+        return false;
+    }
 }

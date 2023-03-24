@@ -18,6 +18,7 @@ public class Configuration {
     public static final String HEATMAP = "heatmap";
     public static final String LAKES = "lakes";
     public static final String AQUIFERS = "aquifers";
+    public static final String RIVERS = "rivers";
     private CommandLine cli;
 
     //Constructor
@@ -83,6 +84,10 @@ public class Configuration {
 
     public int numAquifers() { return Integer.parseInt(this.cli.getOptionValue(AQUIFERS)); }
 
+    public boolean numRiversProvided() { return this.cli.hasOption(RIVERS); }
+
+    public int numRivers() { return Integer.parseInt(this.cli.getOptionValue(RIVERS)); }
+
     private Options options() {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file (MESH)"));
@@ -94,6 +99,7 @@ public class Configuration {
         options.addOption(new Option(ELEVATION, true, "Elevation of the island"));
         options.addOption(new Option(LAKES, true, "Number of lakes on the island"));
         options.addOption(new Option(AQUIFERS, true, "Number of aquifers on the island"));
+        options.addOption(new Option(RIVERS, true, "Number of rivers on the island"));
         options.addOption(new Option(HEATMAP, true, "Display a heatmap instead of biomes"));
         return options;
     }

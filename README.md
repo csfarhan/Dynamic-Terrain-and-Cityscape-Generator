@@ -74,10 +74,10 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F07 | Choice of number of lakes | Farhan | 03/22 | 03/22 | Done |
 | F08 | Aquifers | Sylvia | 03/22 | 03/22 | Done |
 | F09 | Choice of number of aquifers | Sylvia | 03/22 | 03/22 | Done |
-| F10 | Rivers | Farhan |  |  | Blocked (F06) |
+| F10 | Rivers | Sylvia | 03/23 |  | Started |
 | F11 | Choice of number of rivers | Sylvia |  |  | Blocked (F10) |
-| F12 | Soil moisture | Abyan |  |  | Blocked (F06, F08, F10) |
+| F12 | Soil moisture | Abyan | 03/23 |  | Started |
 | F13 | Choice of soil absorption profile | Abyan |  |  | Blocked (F12) |
-| F14 | Biomes | Sylvia |  |  | Blocked (F12) |
+| F14 | Biomes | Farhan |  |  | Blocked (F12) |
 | F15 | Choice of Whittaker diagram | Farhan |  |  | Blocked (F14) |
 | F16 | Heatmaps | Abyan |  |  | Blocked (All) |
