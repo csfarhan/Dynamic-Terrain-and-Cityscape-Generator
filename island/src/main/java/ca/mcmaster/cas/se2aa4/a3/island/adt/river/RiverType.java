@@ -2,8 +2,8 @@ package ca.mcmaster.cas.se2aa4.a3.island.adt.river;
 
 public enum RiverType {
     //"50,150,100"
-    THICK_RIVER("50,150,100", true, "4"),
-    THIN_RIVER("50,150,100", true, "2"),
+    THICK_RIVER("50,150,100", true, "6"),
+    THIN_RIVER("50,150,100", true, "3"),
     FALSE("0,0,0", false, "0.3");
 
     public final String value;

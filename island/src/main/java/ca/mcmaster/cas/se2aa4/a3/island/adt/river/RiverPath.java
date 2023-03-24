@@ -10,6 +10,7 @@ import java.util.List;
 
 public class RiverPath {
     public RiverPath(Point start, TerrainMesh terrainMesh){
+        Point current = start;
         List<Tile> tiles = terrainMesh.getIslandTiles();
         List<Edge> outgoingEdges;
         Point targetPoint;
@@ -20,7 +21,7 @@ public class RiverPath {
         //TEST: cap at 100 segments
         for (int i=0; i<100; i++){
             //Need to figure out which edges/points are connected to start point
-            outgoingEdges = start.getOutgoingEdges();
+            outgoingEdges = current.getOutgoingEdges();
             minElevation = 1;
             targetPoint = null;
             nextEdge = null;
@@ -33,13 +34,12 @@ public class RiverPath {
                 //Loop, updating nextEdge and nextPoint whenever we find a new suitable
                 //destination (minimum elevation, elevation that is lower than current)
                 for (Point p : e.getPointsOfEdge()){
-                    if (!p.equals(start)){
+                    if (!p.equals(current)){
                         targetPoint = p;
                     }
                 }
 
-                //System.out.println(start.getElevation()+", "+targetPoint.getElevation()+", "+minElevation); //TEST
-                if (start.getElevation() >= targetPoint.getElevation() && minElevation > targetPoint.getElevation()){
+                if (current.getElevation() > targetPoint.getElevation() && minElevation > targetPoint.getElevation()){
                     nextPoint = targetPoint;
                     nextEdge = e;
                     minElevation = targetPoint.getElevation();
@@ -48,28 +48,25 @@ public class RiverPath {
                 //Next step: Correctly assigning and adding the next edge and point to the path, and looping
                 //until we meet a stopping condition
             }
+
             if (nextEdge==null){
                 //End case - make lake --> also have return statement
                 //Find all tiles connected to this end point
                 Tile lakeTile;
                 for (Tile t : tiles){
                     for (Point p : t.getPointsOfTile()){
-                        if (p.equals(start)) {
+                        if (p.equals(current)) {
                             lakeTile = t;
                             //Make lake tile
                             lakeTile.setBaseType(new Lake());
-                            break;
+                            return;
                         }
                     }
                 }
-
-                //System.out.println("Lake created");
-                return;
             }
 
             if (nextPoint.getElevation()==0){
                 //We have hit ocean, stop here
-                //System.out.println("Ocean detected");
                 return;
             }
 
@@ -84,7 +81,7 @@ public class RiverPath {
             } else {
                 nextPoint.setRiverType(RiverType.THIN_RIVER);
             }
-            start = nextPoint;
+            current = nextPoint;
         }
     }
 }

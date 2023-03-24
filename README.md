@@ -74,8 +74,8 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F07 | Choice of number of lakes | Farhan | 03/22 | 03/22 | Done |
 | F08 | Aquifers | Sylvia | 03/22 | 03/22 | Done |
 | F09 | Choice of number of aquifers | Sylvia | 03/22 | 03/22 | Done |
-| F10 | Rivers | Sylvia | 03/23 |  | Started |
-| F11 | Choice of number of rivers | Sylvia |  |  | Blocked (F10) |
+| F10 | Rivers | Sylvia | 03/23 | 03/24 | Done |
+| F11 | Choice of number of rivers | Sylvia | 03/23 | 03/24 | Done |
 | F12 | Soil moisture | Abyan | 03/23 |  | Started |
 | F13 | Choice of soil absorption profile | Abyan |  |  | Blocked (F12) |
 | F14 | Biomes | Farhan |  |  | Blocked (F12) |
