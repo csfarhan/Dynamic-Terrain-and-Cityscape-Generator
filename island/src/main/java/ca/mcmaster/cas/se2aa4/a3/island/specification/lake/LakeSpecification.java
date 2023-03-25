@@ -40,7 +40,7 @@ public class LakeSpecification {
                     System.out.println("worked");
                     t.setBaseType(new Lake());
                     t.setElevation(0.05);
-                    t.setMoisture(0.8);
+                    t.setMoisture((1.3));
                     n++;
                     if (n==numLakes)
                         break;

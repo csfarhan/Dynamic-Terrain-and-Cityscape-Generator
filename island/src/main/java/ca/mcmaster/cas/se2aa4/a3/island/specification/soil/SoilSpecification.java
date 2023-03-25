@@ -1,7 +1,10 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification.soil;
 
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.river.RiverType;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+
+import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Aquifer;
 
 import java.util.HashSet;
@@ -50,18 +53,20 @@ public class SoilSpecification implements Soilable {
             double distance = Math.sqrt(Math.pow(Math.abs(x2 - x1), 2) + Math.pow(Math.abs(y2 - y1), 2));
             if (distance < MAX_DISTANCE) {
                 // Calculate remaining water based on distance
-                double remainingWater = 1.0 - (distance / MAX_DISTANCE);
-                if (waterTile.getBaseType().isLake() || waterTile.getAquifer() == Aquifer.TRUE) {
-                    remainingWater *= waterTile.getMoisture();
-
-                }
-
+                double remainingWater = (1.0 - (distance / MAX_DISTANCE));
+                remainingWater*= waterTile.getMoisture();
                 absorption *= remainingWater;
+
+            }
+            for(Edge e : tile.getEdgesOfTile()){
+                absorption *= e.getRiverType().getMoisture();
             }
         }
 
         // Apply soil type factor
         absorption *= absorptionFactor;
+
+
 
 
         return absorption;

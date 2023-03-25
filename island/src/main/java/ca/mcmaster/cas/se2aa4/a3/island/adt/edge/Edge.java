@@ -38,6 +38,11 @@ public class Edge {
         return Property.newBuilder().setKey("thickness").setValue(riverType.getThickness()).build();
     }
 
+    public RiverType getRiverType() {
+        return riverType;
+    }
+
+
     public void setRiverType(RiverType riverType) {
         this.riverType = riverType;
     }
