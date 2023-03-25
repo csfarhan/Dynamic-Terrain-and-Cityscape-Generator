@@ -24,7 +24,7 @@ public class SpecificationFactory {
         bindings.put("volcano", VolcanoSpecification.class);
         bindings.put("hill", HillSpecification.class);
         bindings.put("lagoon", LagoonSpecification.class);
-        bindings.put("Sandy", SoilSpecification.class);
+
     }
 
     //Sets up a mesh to obtain its shape
@@ -44,11 +44,11 @@ public class SpecificationFactory {
         try {
             String soilType = options.get(Configuration.SOIL);
             if (soilType.equalsIgnoreCase("sandy")) {
-                return new SoilSpecification(0.8);
+                return new SoilSpecification(1.35);
             } else if (soilType.equalsIgnoreCase("clay")) {
-                return new SoilSpecification(0.2);
+                return new SoilSpecification(1);
             } else { // Default to loamy soil
-                return new SoilSpecification(0.5);
+                return new SoilSpecification(1.15);
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e);

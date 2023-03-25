@@ -85,6 +85,10 @@ public class Main {
                 case "aquifer":
                     outputMesh = terrainMesh.addAquiferColor(inputMesh);
                     break;
+                case "absorption":
+                    terrainMesh.calculateAbsorption();
+                    outputMesh = terrainMesh.addAbsorptionColor(inputMesh);
+                    break;
                 //Add more heatmap options as more cases
                 default:
                     terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented

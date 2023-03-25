@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a3.island.adt.tile;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Absorbtion;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Altitude;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Aquifer;
 
@@ -36,6 +37,7 @@ public class Tile {
     private BaseType baseType;
     private Biome biome = Biome.OCEAN; //Ocean by default
     private Altitude altitude = Altitude.SEA_LEVEL; //Ocean by default
+    private Absorbtion absorbtion = Absorbtion.SEA_LEVEL; //Ocean by default
     private double elevation = 0;
     private Aquifer aquifer = Aquifer.FALSE; //No aquifer by default
     private double moisture = 0;
@@ -66,6 +68,9 @@ public class Tile {
     //Called by altitude heatmap ColorAdder
     public Property getAltitudeColor(){
         return Property.newBuilder().setKey("rgb_color").setValue(altitude.getValue()).build();
+    }
+    public Property getAbsorptionColor(){
+        return Property.newBuilder().setKey("rgb_color").setValue(absorbtion.getValue()).build();
     }
 
     //Called by aquifer heatmap ColorAdder
@@ -150,6 +155,33 @@ public class Tile {
             altitude = Altitude.BEACH;
         }else if( elevation>0){
             altitude = Altitude.LAKE;
+        }
+    }
+    public void calculateAbsorption(){
+        if (absorption>1.7){
+            absorbtion = Absorbtion.WET;
+        } else if (absorption>1.6){
+            absorbtion = Absorbtion.VERY_HIGH;
+        }else if (absorption>1.4){
+            absorbtion = Absorbtion.HIGH;
+        }else if (absorption>1.2){
+            absorbtion = Absorbtion.MEDIUM_HIGH;
+        }else if (absorption>1.1){
+            absorbtion = Absorbtion.MEDIUM;
+        }else if (absorption>1.05){
+            absorbtion = Absorbtion.MEDIUM_LOW;
+        }else if (absorption>1){
+            absorbtion = Absorbtion.LOW;
+        }else if (absorption>0.95){
+            absorbtion = Absorbtion.VERY_LOW;
+        }else if (absorption>0.4){
+            absorbtion = Absorbtion.DRY;
+        }else if (absorption>0.2){
+            absorbtion = Absorbtion.VERY_DRY;
+        }else if (absorption == 0){
+            absorbtion = Absorbtion.DRYEST;
+        }else if(absorption == -1){
+            absorbtion = Absorbtion.SEA_LEVEL;
         }
     }
 

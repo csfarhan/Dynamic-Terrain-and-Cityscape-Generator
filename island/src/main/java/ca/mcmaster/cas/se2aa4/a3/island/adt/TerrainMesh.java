@@ -75,6 +75,11 @@ public class TerrainMesh {
             t.calculateAltitude();
         }
     }
+    public void calculateAbsorption(){
+        for (Tile t : tiles){
+            t.calculateAbsorption();
+        }
+    }
 
     public List<Tile> getTiles() {
         return tiles;
@@ -131,6 +136,18 @@ public class TerrainMesh {
         for (Tile t : tiles){
             Polygon p = t.getFoundationPolygon();
             newPolygons.add(Polygon.newBuilder(p).addProperties(t.getAltitudeColor()).build());
+        }
+
+        return Mesh.newBuilder(inputMesh)
+                .clearPolygons()
+                .addAllPolygons(newPolygons)
+                .build();
+    }
+    public Mesh addAbsorptionColor(Mesh inputMesh){
+        List<Polygon> newPolygons = new ArrayList<>();
+        for (Tile t : tiles){
+            Polygon p = t.getFoundationPolygon();
+            newPolygons.add(Polygon.newBuilder(p).addProperties(t.getAbsorptionColor()).build());
         }
 
         return Mesh.newBuilder(inputMesh)
