@@ -7,7 +7,9 @@ import ca.mcmaster.cas.se2aa4.a3.island.specification.SpecificationFactory;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.aquifer.AquiferSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.lake.LakeSpecification;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.river.RiverSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.soil.Soilable;
 
 import java.io.IOException;
 import java.util.Random;
@@ -35,7 +37,6 @@ public class Main {
 
         //TerrainMesh to work with
         TerrainMesh terrainMesh = new TerrainMesh(inputMesh);
-        terrainMesh.addNeighbours();
 
         //Build the shape
         Shapable shapableSpec = SpecificationFactory.createShapable(config, seed);
@@ -60,6 +61,18 @@ public class Main {
         }
         terrainMesh = aquiferSpec.addAquifers(terrainMesh);
 
+        //Add rivers
+        RiverSpecification riverSpec;
+        if (config.numRiversProvided()){
+            riverSpec = new RiverSpecification(seed, config.numRivers());
+        } else {
+            riverSpec = new RiverSpecification(seed, rng.nextInt(15));
+        }
+        terrainMesh = riverSpec.addRivers(terrainMesh);
+
+        //Apply Soil properties
+        Soilable SoilableSpec = SpecificationFactory.createSoilable(config);
+        terrainMesh = SoilableSpec.applySoilAbsorption(terrainMesh);
 
         //Final rebuild of Mesh
         if (config.heatmapProvided()){

@@ -29,6 +29,7 @@ public class AquiferSpecification {
             for (Tile t : tiles){
                 if (x >= 1000 && !t.getAquifer().hasAquifer()){
                     t.setAquifer(Aquifer.TRUE);
+                    t.setMoisture(0.5);
                     n++;
                     if (n==numAquifers)
                         break;

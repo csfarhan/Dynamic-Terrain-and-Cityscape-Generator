@@ -7,6 +7,8 @@ import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.HillSpecificatio
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.LagoonSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.VolcanoSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.*;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.soil.SoilSpecification;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.soil.Soilable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,7 @@ public class SpecificationFactory {
         bindings.put("volcano", VolcanoSpecification.class);
         bindings.put("hill", HillSpecification.class);
         bindings.put("lagoon", LagoonSpecification.class);
+        bindings.put("Sandy", SoilSpecification.class);
     }
 
     //Sets up a mesh to obtain its shape
@@ -36,6 +39,22 @@ public class SpecificationFactory {
         }
 
     }
+    public static Soilable createSoilable(Configuration configuration) {
+        Map<String, String> options = configuration.export();
+        try {
+            String soilType = options.get(Configuration.SOIL);
+            if (soilType.equalsIgnoreCase("sandy")) {
+                return new SoilSpecification(0.8);
+            } else if (soilType.equalsIgnoreCase("clay")) {
+                return new SoilSpecification(0.2);
+            } else { // Default to loamy soil
+                return new SoilSpecification(0.5);
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     public static Elevationable createElevationable(Configuration configuration) {
         Map<String, String> options = configuration.export();
         try {
