@@ -20,6 +20,7 @@ public class Configuration {
     public static final String AQUIFERS = "aquifers";
     public static final String RIVERS = "rivers";
     public static final String SOIL = "soil";
+
     private CommandLine cli;
 
     //Constructor

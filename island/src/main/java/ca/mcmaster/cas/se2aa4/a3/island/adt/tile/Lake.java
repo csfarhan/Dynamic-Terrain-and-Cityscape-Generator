@@ -13,4 +13,7 @@ public class Lake implements BaseType{
     public boolean isLake(){
         return true;
     }
+
+    @Override
+    public boolean isOcean() {return false;}
 }

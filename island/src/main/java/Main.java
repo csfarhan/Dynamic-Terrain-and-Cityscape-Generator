@@ -74,6 +74,7 @@ public class Main {
         Soilable SoilableSpec = SpecificationFactory.createSoilable(config);
         terrainMesh = SoilableSpec.applySoilAbsorption(terrainMesh);
 
+
         //Final rebuild of Mesh
         if (config.heatmapProvided()){
             switch (config.heatmap()){

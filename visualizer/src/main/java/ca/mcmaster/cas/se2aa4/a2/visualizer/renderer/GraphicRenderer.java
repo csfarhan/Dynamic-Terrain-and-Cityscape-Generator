@@ -21,6 +21,7 @@ public class GraphicRenderer implements Renderer {
         Stroke stroke = new BasicStroke(0.2f);
         canvas.setStroke(stroke);
         drawPolygons(aMesh,canvas);
+        drawSegments(aMesh, canvas);
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
@@ -51,6 +52,38 @@ public class GraphicRenderer implements Renderer {
             canvas.fill(path);
             canvas.setColor(old);
         }
+    }
+
+    private void drawSegments(Mesh aMesh, Graphics2D canvas){
+        for(Structs.Segment s: aMesh.getSegmentsList()){
+            drawASegment(s, aMesh, canvas);
+        }
+    }
+
+    private void drawASegment(Structs.Segment s, Mesh aMesh, Graphics2D canvas){
+        Vertex v1 = aMesh.getVertices(s.getV1Idx());
+        Vertex v2 = aMesh.getVertices(s.getV2Idx());
+        for (Structs.Property prop : s.getPropertiesList()){
+            if (prop.getKey().equals("thickness")){
+                Stroke stroke = new BasicStroke(Float.parseFloat(prop.getValue()));
+                canvas.setStroke(stroke);
+            }
+        }
+
+        Path2D path = new Path2D.Float();
+        path.moveTo(v1.getX(), v1.getY());
+        path.lineTo(v2.getX(), v2.getY());
+        path.closePath();
+        Optional<Color> color = new ColorProperty().extract(s.getPropertiesList());
+        if(color.isPresent()){
+            Color old = canvas.getColor();
+            canvas.setColor(color.get());
+            canvas.draw(path);
+            canvas.setColor(old);
+        }
+
+        Stroke stroke = new BasicStroke(0.3f);
+        canvas.setStroke(stroke);
     }
 
 }
