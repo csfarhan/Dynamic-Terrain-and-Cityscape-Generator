@@ -24,7 +24,7 @@ public class SoilSpecification implements Soilable {
         // Find all water tiles
         Set<Tile> waterTiles = new HashSet<>();
         for (Tile tile : terrainMesh.getTiles()) {
-            if (tile.getBaseType().isLake() || tile.getAquifer() == Aquifer.TRUE) {
+            if (tile.getAquifer() == Aquifer.TRUE || tile.getBaseType().isLake()) {
                 waterTiles.add(tile);
             }
         }
@@ -34,6 +34,7 @@ public class SoilSpecification implements Soilable {
             if(tile.getBaseType().isLand()) {
                 double absorptionCoefficient = calculateAbsorptionCoefficient(tile, waterTiles);
                 tile.setAbsorption(absorptionCoefficient);
+                System.out.println(absorptionCoefficient);
             }
         }
 
@@ -56,7 +57,6 @@ public class SoilSpecification implements Soilable {
                 double remainingWater = (1.0 - (distance / MAX_DISTANCE));
                 remainingWater*= waterTile.getMoisture();
                 absorption *= remainingWater;
-
             }
             for(Edge e : tile.getEdgesOfTile()){
                 absorption *= e.getRiverType().getMoisture();
@@ -65,9 +65,6 @@ public class SoilSpecification implements Soilable {
 
         // Apply soil type factor
         absorption *= absorptionFactor;
-
-
-
 
         return absorption;
     }

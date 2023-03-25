@@ -59,6 +59,7 @@ public class RiverPath {
                             lakeTile = t;
                             //Make lake tile
                             lakeTile.setBaseType(new Lake());
+                            lakeTile.setMoisture(1.3);
                             return;
                         }
                     }
