@@ -159,11 +159,11 @@ public class Tile {
         biomeRanges2.put(Biome.OCEAN, new double[]{0.0, 0.0, -1.0, -1.0});
 
         // Check which biome region it falls under
-        if (profile.equals("Canada")){
+        if (profile.equalsIgnoreCase("canada")){
             if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
                 this.baseType = new Desert();
                 return Biome.DESERTC;
-            } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
+            } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.85)) {
                 this.baseType = new Tundra();
                 return Biome.TUNDRAC;
             } else if ((elevation >= 0.6) && (absorption >= 0 && absorption <= 0.85)) {
@@ -190,7 +190,7 @@ public class Tile {
             }
         }
 
-        if (profile.equals("Indonesia")){
+        if (profile.equalsIgnoreCase("indonesia")){
             if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
                 this.baseType = new DesertI();
                 return Biome.DESERTI;
@@ -321,10 +321,8 @@ public class Tile {
             altitude = Altitude.LOW;
         } else if (elevation>0.2){
             altitude = Altitude.VERY_LOW;
-        } else if (elevation>0.05) {
+        } else if( elevation>0){
             altitude = Altitude.BEACH;
-        }else if( elevation>0){
-            altitude = Altitude.LAKE;
         }
     }
     public void calculateAbsorption(){

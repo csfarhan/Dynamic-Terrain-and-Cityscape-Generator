@@ -7,8 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BiomeSpecification {
-    public TerrainMesh biomeCreate(TerrainMesh terrainMesh, String whittaker){
+public class BiomeSpecification implements Biomable{
+    private final String whittaker;
+
+    // Define the ranges for the absorption values
+
+    public BiomeSpecification(String whittaker) {
+        this.whittaker = whittaker;
+    }
+
+    public TerrainMesh biomeCreate(TerrainMesh terrainMesh){
         List<Tile> tiles = terrainMesh.getTiles();
         Set<Tile> biomeableTiles = new HashSet<>();
         for (Tile t : tiles){

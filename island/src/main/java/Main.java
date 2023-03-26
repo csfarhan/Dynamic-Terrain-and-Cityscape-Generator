@@ -11,6 +11,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.specification.lake.LakeSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.river.RiverSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.soil.Soilable;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.biome.Biomable;
 
 import java.io.IOException;
 import java.util.Random;
@@ -80,8 +81,8 @@ public class Main {
         Soilable SoilableSpec = SpecificationFactory.createSoilable(config);
         terrainMesh = SoilableSpec.applySoilAbsorption(terrainMesh);
 
-        BiomeSpecification biomeCreate = new BiomeSpecification();
-        terrainMesh = biomeCreate.biomeCreate(terrainMesh, config.biome());
+        Biomable BiomableSpec = SpecificationFactory.createBiomable(config);
+        terrainMesh = BiomableSpec.biomeCreate(terrainMesh);
 
 
         //Final rebuild of Mesh

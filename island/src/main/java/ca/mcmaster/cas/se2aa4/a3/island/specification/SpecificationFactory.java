@@ -2,6 +2,8 @@ package ca.mcmaster.cas.se2aa4.a3.island.specification;
 
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.biome.Biomable;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.biome.BiomeSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.HillSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.LagoonSpecification;
@@ -44,11 +46,11 @@ public class SpecificationFactory {
         try {
             String soilType = options.get(Configuration.SOIL);
             if (soilType.equalsIgnoreCase("sandy")) {
-                return new SoilSpecification(1.35);
+                return new SoilSpecification(0.75);
             } else if (soilType.equalsIgnoreCase("clay")) {
-                return new SoilSpecification(1);
-            } else { // Default to loamy soil
                 return new SoilSpecification(1.15);
+            } else { // Default to loamy soil
+                return new SoilSpecification(1.5);
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
@@ -65,6 +67,23 @@ public class SpecificationFactory {
             throw new IllegalArgumentException(e);
         }
 
+    }
+    public static Biomable createBiomable(Configuration configuration) {
+        Map<String, String> options = configuration.export();
+        try {
+            String biomeType = options.get(Configuration.BIOME);
+            if (biomeType.equalsIgnoreCase("indonesia")) {
+                return new BiomeSpecification(biomeType);
+            } else if(biomeType.equalsIgnoreCase("canada")){
+                return new BiomeSpecification(biomeType);
+            } else { // Default to loamy soil
+                System.out.println("Default Biome: Canada");
+                biomeType = "canada";
+                return new BiomeSpecification(biomeType);
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
     /*
     Note: Shape doesn't take parameters, but if a specification does need a parameter
