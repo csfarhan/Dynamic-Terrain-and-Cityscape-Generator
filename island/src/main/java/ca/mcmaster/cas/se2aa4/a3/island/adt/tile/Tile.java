@@ -128,7 +128,7 @@ public class Tile {
 
     //Biome is calculated based on the baseType and the altitude, absorption and WhittakerProfile if it is a Land Tile
     public Biome calculateBiome(WhittakerDiagram profile){
-
+        biome = this.baseType.calculateBiome(elevation, absorption, profile);
         // Add all biomes to LinkedHashMap
         Map<Biome, double[]> biomeRanges = new LinkedHashMap<>();
         biomeRanges.put(Biome.LAKE, new double[]{Double.NEGATIVE_INFINITY, 1.7, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
