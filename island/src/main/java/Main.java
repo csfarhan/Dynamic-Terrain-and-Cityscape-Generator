@@ -3,6 +3,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.biome.BiomeSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.SpecificationFactory;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.aquifer.AquiferSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
@@ -50,6 +51,9 @@ public class Main {
         if (config.lakesProvided()){
             LakeSpecification lakeSpec = new LakeSpecification(seed, config.lakes());
             terrainMesh = lakeSpec.addLakes(terrainMesh);
+        } else {
+            LakeSpecification lakeSpec = new LakeSpecification(seed, 0);
+            terrainMesh = lakeSpec.addLakes(terrainMesh);
         }
 
         //Add aquifers
@@ -73,6 +77,9 @@ public class Main {
         //Apply Soil properties
         Soilable SoilableSpec = SpecificationFactory.createSoilable(config);
         terrainMesh = SoilableSpec.applySoilAbsorption(terrainMesh);
+
+        BiomeSpecification biomeCreate = new BiomeSpecification();
+        terrainMesh = biomeCreate.biomeCreate(terrainMesh);
 
 
         //Final rebuild of Mesh

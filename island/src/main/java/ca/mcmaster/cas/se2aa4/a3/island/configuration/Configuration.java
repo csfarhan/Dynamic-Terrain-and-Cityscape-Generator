@@ -20,6 +20,7 @@ public class Configuration {
     public static final String AQUIFERS = "aquifers";
     public static final String RIVERS = "rivers";
     public static final String SOIL = "soil";
+    public static final String BIOME = "biome";
 
     private CommandLine cli;
 
@@ -89,6 +90,7 @@ public class Configuration {
     public boolean numRiversProvided() { return this.cli.hasOption(RIVERS); }
 
     public int numRivers() { return Integer.parseInt(this.cli.getOptionValue(RIVERS)); }
+    public String biome(){return this.cli.getOptionValue(biome());}
 
     private Options options() {
         Options options = new Options();
@@ -103,6 +105,7 @@ public class Configuration {
         options.addOption(new Option(AQUIFERS, true, "Number of aquifers on the island"));
         options.addOption(new Option(RIVERS, true, "Number of rivers on the island"));
         options.addOption(new Option(SOIL, true, "Soil profile of island"));
+        options.addOption(new Option(BIOME, true, "Specified biome to create"));
         options.addOption(new Option(HEATMAP, true, "Display a heatmap instead of biomes"));
         return options;
     }

@@ -3,10 +3,7 @@ package ca.mcmaster.cas.se2aa4.a3.island.specification.shape;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Lake;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Land;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Ocean;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.*;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 
 import java.util.ArrayList;
