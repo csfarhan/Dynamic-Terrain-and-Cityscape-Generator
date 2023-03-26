@@ -279,24 +279,24 @@ public class Tile {
         }
 
         // Change baseType to given biome
-        if (closestBiome2 == Biome.DESERTC){
-            this.baseType = new Desert();
-        } else if (closestBiome2 == Biome.TUNDRAC) {
-            this.baseType = new Tundra();
-        } else if (closestBiome2 == Biome.TAIGAC) {
-            this.baseType = new Taiga();
-        } else if (closestBiome2 == Biome.TROPICALRAINFORESTC) {
-            this.baseType = new TropicalRainForest();
-        } else if (closestBiome2 == Biome.TROPICALSEASONALFORESTC) {
-            this.baseType = new TropicalSeasonalForest();
-        } else if (closestBiome2 == Biome.SAVANNAHC) {
-            this.baseType = new Savanna();
-        } else if (closestBiome2 == Biome.TEMPERATERAINFORESTC) {
-            this.baseType = new TemperateRainForest();
-        } else if (closestBiome2 == Biome.TEMPERATEDECIDUOUSUFORESTC) {
-            this.baseType = new TemperateDeciduousForest();
-        } else if (closestBiome2 == Biome.TEMPERATEGRASSLANDDESERTC) {
-            this.baseType = new TemperateGrasslandDesert();
+        if (closestBiome2 == Biome.DESERTI){
+            this.baseType = new DesertI();
+        } else if (closestBiome2 == Biome.TUNDRAI) {
+            this.baseType = new TundraI();
+        } else if (closestBiome2 == Biome.TAIGAI) {
+            this.baseType = new TaigaI();
+        } else if (closestBiome2 == Biome.TROPICALRAINFORESTI) {
+            this.baseType = new TropicalRainForestI();
+        } else if (closestBiome2 == Biome.TROPICALSEASONALFORESTI) {
+            this.baseType = new TropicalSeasonalForestI();
+        } else if (closestBiome2 == Biome.SAVANNAHI) {
+            this.baseType = new SavannaI();
+        } else if (closestBiome2 == Biome.TEMPERATERAINFORESTI) {
+            this.baseType = new TemperateRainForestI();
+        } else if (closestBiome2 == Biome.TEMPERATEDECIDUOUSUFORESTI) {
+            this.baseType = new TemperateDeciduousForestI();
+        } else if (closestBiome2 == Biome.TEMPERATEGRASSLANDDESERTI) {
+            this.baseType = new TemperateGrasslandDesertI();
         }
 
         return closestBiome;

@@ -29,7 +29,14 @@ One can run the generator with `-help` as option to see the different command li
 ### Terrain generation of a mesh
 
 ```
-java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle -e volcano -soil sandy -biome canada
+java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle -e volcano -soil sand -biome canada
+```
+```
+shape (-s) arguments: circle, square
+elevation (-e) arguments: volcano, hill
+soil profile (-s) arguments: sand, clay, loam, Incorrect arguments(defaults to loam)
+biome (-biome) arguments: canada, indonesia, Incorrect arguments(defaults to canada)
+heatmap (-heatmap) arguments: altitude, absorption
 ```
 
 ### Visualizing a mesh, (regular or debug mode)

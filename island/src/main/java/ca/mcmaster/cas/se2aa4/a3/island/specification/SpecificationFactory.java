@@ -45,11 +45,14 @@ public class SpecificationFactory {
         Map<String, String> options = configuration.export();
         try {
             String soilType = options.get(Configuration.SOIL);
-            if (soilType.equalsIgnoreCase("sandy")) {
+            if (soilType.equalsIgnoreCase("sand")) {
                 return new SoilSpecification(0.75);
             } else if (soilType.equalsIgnoreCase("clay")) {
                 return new SoilSpecification(1.15);
+            } else if (soilType.equalsIgnoreCase("loam")) {
+                return new SoilSpecification(1.5);
             } else { // Default to loamy soil
+                System.out.println("Default Soil: Loam");
                 return new SoilSpecification(1.5);
             }
         } catch (Exception e) {
