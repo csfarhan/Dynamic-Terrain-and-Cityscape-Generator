@@ -30,6 +30,7 @@ public class Main {
         } else {
             seed = new Seed();
         }
+        System.out.println("Seed: "+seed.getSeed());
         Mesh inputMesh = new MeshFactory().read(config.input());
         Mesh outputMesh;
 
@@ -47,6 +48,7 @@ public class Main {
         //Apply elevation
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
+        terrainMesh.stabilizeAltitude();
 
         if (config.lakesProvided()){
             LakeSpecification lakeSpec = new LakeSpecification(seed, config.lakes());

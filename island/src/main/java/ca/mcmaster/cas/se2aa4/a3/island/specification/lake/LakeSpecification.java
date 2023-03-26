@@ -70,7 +70,6 @@ public class LakeSpecification {
                 }
 
                 if (x >= 1000 && t.getBaseType().isLand() && neighbourOcean!=true){
-                    System.out.println("worked");
                     t.setBaseType(new Lake());
                     t.setElevation(0.05);
                     t.setMoisture((1));

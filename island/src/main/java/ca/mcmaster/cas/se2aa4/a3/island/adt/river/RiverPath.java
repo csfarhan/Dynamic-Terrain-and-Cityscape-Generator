@@ -67,11 +67,6 @@ public class RiverPath {
                 }
             }
 
-            if (nextPoint.getElevation()==0){
-                //We have hit ocean, stop here
-                return;
-            }
-
             //Adding to river
             if (nextEdge.isRiver()){
                 nextEdge.setRiverType(RiverType.THICK_RIVER);
@@ -83,6 +78,12 @@ public class RiverPath {
             } else {
                 nextPoint.setRiverType(RiverType.THIN_RIVER);
             }
+
+            if (nextPoint.getElevation()<0.00001){
+                //We have hit ocean, stop here
+                return;
+            }
+
             current = nextPoint;
         }
     }

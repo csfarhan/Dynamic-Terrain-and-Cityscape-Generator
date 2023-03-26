@@ -51,17 +51,6 @@ public class TerrainMesh {
         }
     }
 
-    /*
-    public void calculateAltitude(AltimetricProfile profile, int seed){
-        //For each tile in tiles, do calculation and call setAltitude
-    }
-
-    public void calculateAbsorption(SoilProfile profile, int seed){
-        //For each tile in tiles, do calculation and call setAbsorption
-    }
-
-     */
-
     public void calculateBiome(String diagram){
         for (Tile t : tiles){
             t.calculateBiome(diagram);
@@ -71,6 +60,15 @@ public class TerrainMesh {
     public void calculateAltitude(){
         for (Tile t : tiles){
             t.calculateAltitude();
+        }
+    }
+    public void stabilizeAltitude(){
+        for (Tile t : tiles){
+            if (t.getBaseType().isOcean()){
+                for (Point p : t.getPointsOfTile()){
+                    p.setElevation(0);
+                }
+            }
         }
     }
     public void calculateAbsorption(){

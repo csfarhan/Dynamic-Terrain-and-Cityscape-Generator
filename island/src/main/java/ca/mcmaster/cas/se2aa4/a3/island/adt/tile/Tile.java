@@ -159,13 +159,8 @@ public class Tile {
         biomeRanges2.put(Biome.OCEAN, new double[]{0.0, 0.0, -1.0, -1.0});
 
         // Check which biome region it falls under
-        //System.out.println(elevation + " " + absorption + ":\n");
-
         if (profile.equals("Canada")){
-            if (elevation == 0.05){
-                this.baseType = new Lake();
-                return Biome.LAKE;
-            } else if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
+            if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
                 this.baseType = new Desert();
                 return Biome.DESERTC;
             } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
@@ -177,7 +172,7 @@ public class Tile {
             } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 1.06)) {
                 this.baseType = new TropicalRainForest();
                 return Biome.TROPICALRAINFORESTC;
-            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8 && absorption <= 1.06)) {
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8)) {
                 this.baseType = new TropicalSeasonalForest();
                 return Biome.TROPICALSEASONALFORESTC;
             } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.1 && absorption <= 0.3)) {
@@ -192,17 +187,11 @@ public class Tile {
             } else if ((elevation >= 0.225 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.8)) {
                 this.baseType = new Desert();
                 return Biome.TEMPERATEGRASSLANDDESERTC;
-            } else if (elevation == 0.0 && absorption == -1.0) {
-                this.baseType = new Ocean();
-                return Biome.OCEAN;
             }
         }
 
         if (profile.equals("Indonesia")){
-            if (elevation == 0.05){
-                this.baseType = new Lake();
-                return Biome.LAKE;
-            } else if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
+            if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
                 this.baseType = new DesertI();
                 return Biome.DESERTI;
             } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
@@ -214,7 +203,7 @@ public class Tile {
             } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 1.06)) {
                 this.baseType = new TropicalRainForestI();
                 return Biome.TROPICALRAINFORESTI;
-            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8 && absorption <= 1.06)) {
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8)) {
                 this.baseType = new TropicalSeasonalForestI();
                 return Biome.TROPICALSEASONALFORESTI;
             } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.1 && absorption <= 0.3)) {
@@ -229,9 +218,6 @@ public class Tile {
             } else if ((elevation >= 0.225 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.8)) {
                 this.baseType = new DesertI();
                 return Biome.TEMPERATEGRASSLANDDESERTI;
-            } else if (elevation == 0.0 && absorption == -1.0) {
-                this.baseType = new Ocean();
-                return Biome.OCEAN;
             }
         }
 
@@ -254,7 +240,6 @@ public class Tile {
         }
 
         // Change baseType to given biome
-        //System.out.println(closestBiome + " " + closestDistance);
         if (closestBiome == Biome.DESERTC){
             this.baseType = new Desert();
         } else if (closestBiome == Biome.TUNDRAC) {
@@ -294,7 +279,6 @@ public class Tile {
         }
 
         // Change baseType to given biome
-        //System.out.println(closestBiome + " " + closestDistance);
         if (closestBiome2 == Biome.DESERTC){
             this.baseType = new Desert();
         } else if (closestBiome2 == Biome.TUNDRAC) {

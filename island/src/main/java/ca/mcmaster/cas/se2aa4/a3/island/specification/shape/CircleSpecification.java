@@ -45,7 +45,6 @@ public class CircleSpecification implements Shapable {
         //Using the seed to randomize
         int last = (int) seed % 10;
         int secondLast = (int) (seed / 10) % 10;
-        System.out.println(seed+", "+height+", "+width);
 
         //Determine radius
         if (width < height){

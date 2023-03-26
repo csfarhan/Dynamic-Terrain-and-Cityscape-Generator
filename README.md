@@ -29,7 +29,7 @@ One can run the generator with `-help` as option to see the different command li
 ### Terrain generation of a mesh
 
 ```
-java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle -e volcano
+java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle -e volcano -soil sandy -biome canada
 ```
 
 ### Visualizing a mesh, (regular or debug mode)
@@ -76,7 +76,7 @@ Feature is completed when it is the final version, fully implemented  with no fu
 | F09 | Choice of number of aquifers | Sylvia | 03/22 | 03/22 | Done |
 | F10 | Rivers | Sylvia | 03/23 | 03/24 | Done |
 | F11 | Choice of number of rivers | Sylvia | 03/23 | 03/24 | Done |
-| F12 | Soil moisture | Abyan | 03/23 | 03/25 | Started |
+| F12 | Soil moisture | Abyan | 03/23 | 03/25 | Done |
 | F13 | Choice of soil absorption profile | Abyan | 03/24 | 03/25 | Done |
 | F14 | Biomes | Farhan | 03/25 | 03/26 | Done |
 | F15 | Choice of Whittaker diagram | Farhan | 03/25 | 03/26 | Done |

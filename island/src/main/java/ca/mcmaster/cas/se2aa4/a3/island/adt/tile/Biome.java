@@ -7,7 +7,7 @@ import java.util.List;
 public enum Biome {
     // Canada
     OCEAN("50,100,135"),
-    LAKE("0,0,255"),
+    LAKE("0,190,255"),
     LAND("255,230,160"),
     SAVANNAHC("48,49,0"),
     DESERTC("116,123,1"),
