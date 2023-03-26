@@ -90,7 +90,7 @@ public class Configuration {
     public boolean numRiversProvided() { return this.cli.hasOption(RIVERS); }
 
     public int numRivers() { return Integer.parseInt(this.cli.getOptionValue(RIVERS)); }
-    public String biome(){return this.cli.getOptionValue(biome());}
+    public String biome(){return this.cli.getOptionValue(BIOME);}
 
     private Options options() {
         Options options = new Options();

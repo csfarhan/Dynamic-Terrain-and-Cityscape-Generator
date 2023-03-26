@@ -3,9 +3,7 @@ package ca.mcmaster.cas.se2aa4.a3.island.adt;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.river.RiverPath;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.WhittakerDiagram;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +62,7 @@ public class TerrainMesh {
 
      */
 
-    public void calculateBiome(WhittakerDiagram diagram){
+    public void calculateBiome(String diagram){
         for (Tile t : tiles){
             t.calculateBiome(diagram);
         }

@@ -79,7 +79,7 @@ public class Main {
         terrainMesh = SoilableSpec.applySoilAbsorption(terrainMesh);
 
         BiomeSpecification biomeCreate = new BiomeSpecification();
-        terrainMesh = biomeCreate.biomeCreate(terrainMesh);
+        terrainMesh = biomeCreate.biomeCreate(terrainMesh, config.biome());
 
 
         //Final rebuild of Mesh
@@ -98,12 +98,12 @@ public class Main {
                     break;
                 //Add more heatmap options as more cases
                 default:
-                    terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented
+                    terrainMesh.calculateBiome(config.biome()); //null arg until Whittaker Diagrams implemented
                     outputMesh = terrainMesh.addColor(inputMesh);
                     break;
             }
         } else {
-            terrainMesh.calculateBiome(null); //null arg until Whittaker Diagrams implemented
+            terrainMesh.calculateBiome(config.biome()); //null arg until Whittaker Diagrams implemented
             outputMesh = terrainMesh.addColor(inputMesh);
         }
 

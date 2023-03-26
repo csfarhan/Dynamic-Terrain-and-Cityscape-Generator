@@ -1,9 +1,12 @@
-package ca.mcmaster.cas.se2aa4.a3.island.adt.tile;
+package ca.mcmaster.cas.se2aa4.a3.island.adt.tile.indonesia;
 
-public class Ocean implements BaseType{
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.BaseType;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Biome;
+
+public class TaigaI implements BaseType {
     @Override
     public Biome calculateBiome(double altitude, double absorption, String diagram) {
-        return Biome.OCEAN;
+        return Biome.TAIGAI;
     }
 
     @Override
@@ -18,6 +21,6 @@ public class Ocean implements BaseType{
 
     @Override
     public boolean isOcean() {
-        return true;
+        return false;
     }
 }

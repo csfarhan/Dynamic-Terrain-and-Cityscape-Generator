@@ -1,12 +1,11 @@
-package ca.mcmaster.cas.se2aa4.a3.island.adt.tile;
+package ca.mcmaster.cas.se2aa4.a3.island.adt.tile.canada;
 
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.BaseType;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Biome;
-import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.WhittakerDiagram;
 
-public class Savannah implements BaseType {
+public class Desert implements BaseType {
     @Override
-    public Biome calculateBiome(double altitude, double absorption, WhittakerDiagram diagram) { return Biome.SAVANNAH; }
+    public Biome calculateBiome(double altitude, double absorption, String diagram) { return Biome.DESERTC; }
 
     @Override
     public boolean isLand() {

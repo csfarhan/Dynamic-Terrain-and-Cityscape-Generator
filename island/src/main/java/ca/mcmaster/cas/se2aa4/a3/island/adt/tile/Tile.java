@@ -3,9 +3,11 @@ package ca.mcmaster.cas.se2aa4.a3.island.adt.tile;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.canada.*;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Absorbtion;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Altitude;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Aquifer;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.indonesia.*;
 
 import java.util.*;
 
@@ -127,57 +129,110 @@ public class Tile {
     }
 
     //Biome is calculated based on the baseType and the altitude, absorption and WhittakerProfile if it is a Land Tile
-    public Biome calculateBiome(WhittakerDiagram profile){
+    public Biome calculateBiome(String profile){
         biome = this.baseType.calculateBiome(elevation, absorption, profile);
         // Add all biomes to LinkedHashMap
         Map<Biome, double[]> biomeRanges = new LinkedHashMap<>();
         biomeRanges.put(Biome.LAKE, new double[]{Double.NEGATIVE_INFINITY, 1.7, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
-        biomeRanges.put(Biome.DESERT, new double[]{0.0, 0.9, 0.0, 0.425});
-        biomeRanges.put(Biome.TUNDRA, new double[]{0.8, Double.POSITIVE_INFINITY, 0.0, 0.425});
-        biomeRanges.put(Biome.TAIGA, new double[]{0.6, Double.POSITIVE_INFINITY, 0.0, 0.85});
-        biomeRanges.put(Biome.TROPICALRAINFOREST, new double[]{0.0, 0.225, 1.06, Double.POSITIVE_INFINITY});
-        biomeRanges.put(Biome.TROPICALSEASONALFOREST, new double[]{0.0, 0.225, 0.8, 1.06});
-        biomeRanges.put(Biome.SAVANNAH, new double[]{0.0, 0.225, 0.1, 0.3});
-        biomeRanges.put(Biome.TEMPERATERAINFOREST, new double[]{0.4, 0.7, 1.06, 1.4});
-        biomeRanges.put(Biome.TEMPERATEDECIDUOUSUFOREST, new double[]{0.225, 0.675, 0.21225, 1.5});
-        biomeRanges.put(Biome.TEMPERATEGRASSLANDDESERT, new double[]{0.225, 0.9, 0.0, 0.8});
+        biomeRanges.put(Biome.DESERTC, new double[]{0.0, 0.9, 0.0, 0.425});
+        biomeRanges.put(Biome.TUNDRAC, new double[]{0.8, Double.POSITIVE_INFINITY, 0.0, 0.425});
+        biomeRanges.put(Biome.TAIGAC, new double[]{0.6, Double.POSITIVE_INFINITY, 0.0, 0.85});
+        biomeRanges.put(Biome.TROPICALRAINFORESTC, new double[]{0.0, 0.225, 1.06, Double.POSITIVE_INFINITY});
+        biomeRanges.put(Biome.TROPICALSEASONALFORESTC, new double[]{0.0, 0.225, 0.8, 1.06});
+        biomeRanges.put(Biome.SAVANNAHC, new double[]{0.0, 0.225, 0.1, 0.3});
+        biomeRanges.put(Biome.TEMPERATERAINFORESTC, new double[]{0.4, 0.7, 1.06, 1.4});
+        biomeRanges.put(Biome.TEMPERATEDECIDUOUSUFORESTC, new double[]{0.225, 0.675, 0.21225, 1.5});
+        biomeRanges.put(Biome.TEMPERATEGRASSLANDDESERTC, new double[]{0.225, 0.9, 0.0, 0.8});
         biomeRanges.put(Biome.OCEAN, new double[]{0.0, 0.0, -1.0, -1.0});
+
+        Map<Biome, double[]> biomeRanges2 = new LinkedHashMap<>();
+        biomeRanges2.put(Biome.LAKE, new double[]{Double.NEGATIVE_INFINITY, 1.7, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
+        biomeRanges2.put(Biome.DESERTC, new double[]{0.0, 0.9, 0.0, 0.425});
+        biomeRanges2.put(Biome.TUNDRAC, new double[]{0.8, Double.POSITIVE_INFINITY, 0.0, 0.425});
+        biomeRanges2.put(Biome.TAIGAC, new double[]{0.6, Double.POSITIVE_INFINITY, 0.0, 0.85});
+        biomeRanges2.put(Biome.TROPICALRAINFORESTC, new double[]{0.0, 0.225, 1.06, Double.POSITIVE_INFINITY});
+        biomeRanges2.put(Biome.TROPICALSEASONALFORESTC, new double[]{0.0, 0.225, 0.8, 1.06});
+        biomeRanges2.put(Biome.SAVANNAHC, new double[]{0.0, 0.225, 0.1, 0.3});
+        biomeRanges2.put(Biome.TEMPERATERAINFORESTC, new double[]{0.4, 0.7, 1.06, 1.4});
+        biomeRanges2.put(Biome.TEMPERATEDECIDUOUSUFORESTC, new double[]{0.225, 0.675, 0.21225, 1.5});
+        biomeRanges2.put(Biome.TEMPERATEGRASSLANDDESERTC, new double[]{0.225, 0.9, 0.0, 0.8});
+        biomeRanges2.put(Biome.OCEAN, new double[]{0.0, 0.0, -1.0, -1.0});
 
         // Check which biome region it falls under
         //System.out.println(elevation + " " + absorption + ":\n");
-        if (absorption > 1.7){
-            this.baseType = new Lake();
-            return Biome.LAKE;
-        } else if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
-            this.baseType = new Desert();
-            return Biome.DESERT;
-        } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
-            this.baseType = new Tundra();
-            return Biome.TUNDRA;
-        } else if ((elevation >= 0.6) && (absorption >= 0 && absorption <= 0.85)) {
-            this.baseType = new Taiga();
-            return Biome.TAIGA;
-        } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 1.06)) {
-            this.baseType = new TropicalRainForest();
-            return Biome.TROPICALRAINFOREST;
-        } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8 && absorption <= 1.06)) {
-            this.baseType = new TropicalSeasonalForest();
-            return Biome.TROPICALSEASONALFOREST;
-        } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.1 && absorption <= 0.3)) {
-            this.baseType = new Savannah();
-            return Biome.SAVANNAH;
-        } else if ((elevation >= 0.4 && elevation <= 0.7) && (absorption >= 1.06 && absorption <= 1.4)) {
-            this.baseType = new TemperateRainForest();
-            return Biome.TEMPERATERAINFOREST;
-        } else if ((elevation >= 0.225 && elevation <= 0.675) && (absorption >= 0.21225 && absorption <= 1.5)) {
-            this.baseType = new TemperateDeciduousForest();
-            return Biome.TEMPERATEDECIDUOUSUFOREST;
-        } else if ((elevation >= 0.225 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.8)) {
-            this.baseType = new Desert();
-            return Biome.TEMPERATEGRASSLANDDESERT;
-        } else if (elevation == 0.0 && absorption == -1.0) {
-            this.baseType = new Ocean();
-            return Biome.OCEAN;
+
+        if (profile.equals("Canada")){
+            if (elevation == 0.05){
+                this.baseType = new Lake();
+                return Biome.LAKE;
+            } else if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
+                this.baseType = new Desert();
+                return Biome.DESERTC;
+            } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
+                this.baseType = new Tundra();
+                return Biome.TUNDRAC;
+            } else if ((elevation >= 0.6) && (absorption >= 0 && absorption <= 0.85)) {
+                this.baseType = new Taiga();
+                return Biome.TAIGAC;
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 1.06)) {
+                this.baseType = new TropicalRainForest();
+                return Biome.TROPICALRAINFORESTC;
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8 && absorption <= 1.06)) {
+                this.baseType = new TropicalSeasonalForest();
+                return Biome.TROPICALSEASONALFORESTC;
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.1 && absorption <= 0.3)) {
+                this.baseType = new Savanna();
+                return Biome.SAVANNAHC;
+            } else if ((elevation >= 0.4 && elevation <= 0.7) && (absorption >= 1.06 && absorption <= 1.4)) {
+                this.baseType = new TemperateRainForest();
+                return Biome.TEMPERATERAINFORESTC;
+            } else if ((elevation >= 0.225 && elevation <= 0.675) && (absorption >= 0.21225 && absorption <= 1.5)) {
+                this.baseType = new TemperateDeciduousForest();
+                return Biome.TEMPERATEDECIDUOUSUFORESTC;
+            } else if ((elevation >= 0.225 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.8)) {
+                this.baseType = new Desert();
+                return Biome.TEMPERATEGRASSLANDDESERTC;
+            } else if (elevation == 0.0 && absorption == -1.0) {
+                this.baseType = new Ocean();
+                return Biome.OCEAN;
+            }
+        }
+
+        if (profile.equals("Indonesia")){
+            if (elevation == 0.05){
+                this.baseType = new Lake();
+                return Biome.LAKE;
+            } else if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
+                this.baseType = new DesertI();
+                return Biome.DESERTI;
+            } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
+                this.baseType = new TundraI();
+                return Biome.TUNDRAI;
+            } else if ((elevation >= 0.6) && (absorption >= 0 && absorption <= 0.85)) {
+                this.baseType = new TaigaI();
+                return Biome.TAIGAI;
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 1.06)) {
+                this.baseType = new TropicalRainForestI();
+                return Biome.TROPICALRAINFORESTI;
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.8 && absorption <= 1.06)) {
+                this.baseType = new TropicalSeasonalForestI();
+                return Biome.TROPICALSEASONALFORESTI;
+            } else if ((elevation > 0 && elevation <= 0.225) && (absorption >= 0.1 && absorption <= 0.3)) {
+                this.baseType = new SavannaI();
+                return Biome.SAVANNAHI;
+            } else if ((elevation >= 0.4 && elevation <= 0.7) && (absorption >= 1.06 && absorption <= 1.4)) {
+                this.baseType = new TemperateRainForestI();
+                return Biome.TEMPERATERAINFORESTI;
+            } else if ((elevation >= 0.225 && elevation <= 0.675) && (absorption >= 0.21225 && absorption <= 1.5)) {
+                this.baseType = new TemperateDeciduousForestI();
+                return Biome.TEMPERATEDECIDUOUSUFORESTI;
+            } else if ((elevation >= 0.225 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.8)) {
+                this.baseType = new DesertI();
+                return Biome.TEMPERATEGRASSLANDDESERTI;
+            } else if (elevation == 0.0 && absorption == -1.0) {
+                this.baseType = new Ocean();
+                return Biome.OCEAN;
+            }
         }
 
         // If not in any of the above biome regions, then find which its closest to based on conditions
@@ -200,23 +255,63 @@ public class Tile {
 
         // Change baseType to given biome
         //System.out.println(closestBiome + " " + closestDistance);
-        if (closestBiome == Biome.DESERT){
+        if (closestBiome == Biome.DESERTC){
             this.baseType = new Desert();
-        } else if (closestBiome == Biome.TUNDRA) {
+        } else if (closestBiome == Biome.TUNDRAC) {
             this.baseType = new Tundra();
-        } else if (closestBiome == Biome.TAIGA) {
+        } else if (closestBiome == Biome.TAIGAC) {
             this.baseType = new Taiga();
-        } else if (closestBiome == Biome.TROPICALRAINFOREST) {
+        } else if (closestBiome == Biome.TROPICALRAINFORESTC) {
             this.baseType = new TropicalRainForest();
-        } else if (closestBiome == Biome.TROPICALSEASONALFOREST) {
+        } else if (closestBiome == Biome.TROPICALSEASONALFORESTC) {
             this.baseType = new TropicalSeasonalForest();
-        } else if (closestBiome == Biome.SAVANNAH) {
-            this.baseType = new Savannah();
-        } else if (closestBiome == Biome.TEMPERATERAINFOREST) {
+        } else if (closestBiome == Biome.SAVANNAHC) {
+            this.baseType = new Savanna();
+        } else if (closestBiome == Biome.TEMPERATERAINFORESTC) {
             this.baseType = new TemperateRainForest();
-        } else if (closestBiome == Biome.TEMPERATEDECIDUOUSUFOREST) {
+        } else if (closestBiome == Biome.TEMPERATEDECIDUOUSUFORESTC) {
             this.baseType = new TemperateDeciduousForest();
-        } else if (closestBiome == Biome.TEMPERATEGRASSLANDDESERT) {
+        } else if (closestBiome == Biome.TEMPERATEGRASSLANDDESERTC) {
+            this.baseType = new TemperateGrasslandDesert();
+        }
+
+        // If not in any of the above biome regions, then find which its closest to based on conditions
+        Biome closestBiome2 = Biome.LAKE;
+        double closestDistance2 = Double.POSITIVE_INFINITY;
+
+        for (Map.Entry<Biome, double[]> entry : biomeRanges.entrySet()) {
+            Biome biome = entry.getKey();
+            double[] ranges = entry.getValue();
+
+            double dist2 = Math.sqrt(Math.pow((elevation - ranges[0]) / (ranges[1] - ranges[0]), 2) +
+                    Math.pow((absorption - ranges[2]) / (ranges[3] - ranges[2]), 2));
+
+            if (dist2 < closestDistance2) {
+                closestDistance2 = dist2;
+                closestBiome2 = biome;
+            }
+
+        }
+
+        // Change baseType to given biome
+        //System.out.println(closestBiome + " " + closestDistance);
+        if (closestBiome2 == Biome.DESERTC){
+            this.baseType = new Desert();
+        } else if (closestBiome2 == Biome.TUNDRAC) {
+            this.baseType = new Tundra();
+        } else if (closestBiome2 == Biome.TAIGAC) {
+            this.baseType = new Taiga();
+        } else if (closestBiome2 == Biome.TROPICALRAINFORESTC) {
+            this.baseType = new TropicalRainForest();
+        } else if (closestBiome2 == Biome.TROPICALSEASONALFORESTC) {
+            this.baseType = new TropicalSeasonalForest();
+        } else if (closestBiome2 == Biome.SAVANNAHC) {
+            this.baseType = new Savanna();
+        } else if (closestBiome2 == Biome.TEMPERATERAINFORESTC) {
+            this.baseType = new TemperateRainForest();
+        } else if (closestBiome2 == Biome.TEMPERATEDECIDUOUSUFORESTC) {
+            this.baseType = new TemperateDeciduousForest();
+        } else if (closestBiome2 == Biome.TEMPERATEGRASSLANDDESERTC) {
             this.baseType = new TemperateGrasslandDesert();
         }
 
