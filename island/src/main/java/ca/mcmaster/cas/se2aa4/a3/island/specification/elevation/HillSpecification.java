@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a3.island.specification.elevation;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,16 @@ import java.util.Random;
 public class HillSpecification implements Elevationable {
 
     private static final double MAX_ELEVATION = 0.901;
-    private static final double HIGH_NEIGHBOR_ELEVATION = 0.5;
+    private final long seed;
+
+    //Constructor
+    public HillSpecification(Seed seed){
+        this.seed = seed.getSeed();
+    }
 
     public TerrainMesh applyElevation(TerrainMesh terrainMesh) {
         List<Tile> tiles = terrainMesh.getTiles();
-        List<Point> points = terrainMesh.getPoints();
-        Random rand = new Random();
+        Random rand = new Random(seed);
 
         // Set elevation of each tile randomly
         for (Tile t : tiles) {

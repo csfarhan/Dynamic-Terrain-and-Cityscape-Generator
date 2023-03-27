@@ -49,7 +49,7 @@ public class Main {
 
 
         //Apply elevation
-        Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
+        Elevationable elevatableSpec = SpecificationFactory.createElevationable(config, seed);
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
         terrainMesh.stabilizeAltitude();
         if (config.lakesProvided()){

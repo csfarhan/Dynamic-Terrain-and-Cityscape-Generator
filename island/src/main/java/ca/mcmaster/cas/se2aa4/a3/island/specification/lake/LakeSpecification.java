@@ -85,7 +85,6 @@ public class LakeSpecification {
 
                 if (x >= 1000 && t.getBaseType().isLand() && neighbourOcean!=true){
                     t.setBaseType(new Lake());
-                    t.setElevation(0.05);
                     t.setMoisture((1));
                     t.setAbsorption(1.75);
                     n++;

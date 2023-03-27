@@ -5,18 +5,25 @@ import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Lake;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Ocean;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class LagoonSpecification implements Elevationable {
+    private final long seed;
+
+    //Constructor
+    public LagoonSpecification(Seed seed){
+        this.seed = seed.getSeed();
+    }
 
     public TerrainMesh applyElevation(TerrainMesh terrainMesh) {
         List<Tile> landTiles = new ArrayList<>();
         List<Tile> waterTiles = new ArrayList<>();
         List<Tile> tiles = terrainMesh.getTiles();
-        Random rand = new Random();
+        Random rand = new Random(seed);
 
         for (Tile t : tiles) {
             if (t.getBaseType().isLand()) {

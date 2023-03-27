@@ -45,10 +45,10 @@ public class SquareSpecification implements Shapable{
         //Determine max distance from center --> half the side length of square island
         if (width < height){
             max_dist = width*(1.0/last);
-            terrainMesh.setRadius(max_dist);
+
         } else {
             max_dist = height*(1.0/secondLast);
-            terrainMesh.setRadius(max_dist);
+
         }
 
         //Estimating center of grid

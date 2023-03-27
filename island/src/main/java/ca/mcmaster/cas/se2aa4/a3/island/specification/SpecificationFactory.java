@@ -60,11 +60,11 @@ public class SpecificationFactory {
         }
     }
 
-    public static Elevationable createElevationable(Configuration configuration) {
+    public static Elevationable createElevationable(Configuration configuration, Seed seed) {
         Map<String, String> options = configuration.export();
         try {
             Class klass = bindings.get(options.get(Configuration.ELEVATION));
-            return (Elevationable) klass.getDeclaredConstructor().newInstance();
+            return (Elevationable) klass.getDeclaredConstructor(Seed.class).newInstance(seed);
 
         } catch (Exception e) {
             throw new IllegalArgumentException(e);

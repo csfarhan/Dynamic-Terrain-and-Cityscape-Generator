@@ -49,10 +49,10 @@ public class CircleSpecification implements Shapable {
         //Determine radius
         if (width < height){
             radius = width*(1.0/last);
-            terrainMesh.setRadius(radius);
+
         } else {
             radius = height*(1.0/secondLast);
-            terrainMesh.setRadius(radius);
+
         }
 
         //Adding tiles

@@ -14,15 +14,6 @@ public class TerrainMesh {
     List<Edge> edges = new ArrayList<>();
     List<Point> points = new ArrayList<>();
 
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
-    double radius = 0;
 
     public TerrainMesh(Mesh inputMesh){
         List<Polygon> sourcePolygons = inputMesh.getPolygonsList();

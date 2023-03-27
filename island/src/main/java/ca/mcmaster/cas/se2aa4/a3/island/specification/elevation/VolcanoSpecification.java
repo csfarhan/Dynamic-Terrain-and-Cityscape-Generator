@@ -3,15 +3,23 @@ package ca.mcmaster.cas.se2aa4.a3.island.specification.elevation;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 
 import java.util.List;
 import java.util.Random;
 
 public class VolcanoSpecification implements Elevationable {
+    private final long seed;
+
+    //Constructor
+    public VolcanoSpecification(Seed seed){
+        this.seed = seed.getSeed();
+    }
 
     public TerrainMesh applyElevation(TerrainMesh terrainMesh) {
         List<Tile> tiles = terrainMesh.getTiles();
         List<Point> points = terrainMesh.getPoints();
+
 
         double minX = Double.POSITIVE_INFINITY;
         double minY = Double.POSITIVE_INFINITY;
@@ -31,9 +39,9 @@ public class VolcanoSpecification implements Elevationable {
 
         double centerX = (minX + maxX) / 2;
         double centerY = (minY + maxY) / 2;
-        Random rand = new Random();
-        System.out.println(terrainMesh.getRadius());
-        double radius = (0.2 + (0.5 - 0.2) * terrainMesh.getRadius()/1000) * Math.min(maxX - minX, maxY - minY);
+        Random rand = new Random(seed);
+
+        double radius = (0.2 + (0.5 - 0.2) * rand.nextDouble()) * Math.min(maxX - minX, maxY - minY);
 
         // Apply elevation profile to vertices
         for (Point p : points) {
