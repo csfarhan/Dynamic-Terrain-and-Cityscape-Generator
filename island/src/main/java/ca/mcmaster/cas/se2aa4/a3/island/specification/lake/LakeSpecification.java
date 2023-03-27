@@ -34,7 +34,7 @@ public class LakeSpecification {
             return terrainMesh;
         } else {
             if (numLakes > islandTiles.size()){
-                System.out.println("The # of Lakes requested is not possible on this island. UPPER");
+                System.out.println("The # of Lakes requested is not possible on this island.");
                 return terrainMesh;
             }
             insertLakes(terrainMesh, numLakes);
