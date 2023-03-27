@@ -147,20 +147,20 @@ public class Tile {
 
         Map<Biome, double[]> biomeRanges2 = new LinkedHashMap<>();
         biomeRanges2.put(Biome.LAKE, new double[]{Double.NEGATIVE_INFINITY, 1.7, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
-        biomeRanges2.put(Biome.DESERTC, new double[]{0.0, 0.9, 0.0, 0.425});
-        biomeRanges2.put(Biome.TUNDRAC, new double[]{0.8, Double.POSITIVE_INFINITY, 0.0, 0.425});
-        biomeRanges2.put(Biome.TAIGAC, new double[]{0.6, Double.POSITIVE_INFINITY, 0.0, 0.85});
-        biomeRanges2.put(Biome.TROPICALRAINFORESTC, new double[]{0.0, 0.225, 1.06, Double.POSITIVE_INFINITY});
-        biomeRanges2.put(Biome.TROPICALSEASONALFORESTC, new double[]{0.0, 0.225, 0.8, 1.06});
-        biomeRanges2.put(Biome.SAVANNAHC, new double[]{0.0, 0.225, 0.1, 0.3});
-        biomeRanges2.put(Biome.TEMPERATERAINFORESTC, new double[]{0.4, 0.7, 1.06, 1.4});
-        biomeRanges2.put(Biome.TEMPERATEDECIDUOUSUFORESTC, new double[]{0.225, 0.675, 0.21225, 1.5});
-        biomeRanges2.put(Biome.TEMPERATEGRASSLANDDESERTC, new double[]{0.225, 0.9, 0.0, 0.8});
+        biomeRanges2.put(Biome.DESERTI, new double[]{0.0, 0.9, 0.0, 0.425});
+        biomeRanges2.put(Biome.TUNDRAI, new double[]{0.8, Double.POSITIVE_INFINITY, 0.0, 0.425});
+        biomeRanges2.put(Biome.TAIGAI, new double[]{0.6, Double.POSITIVE_INFINITY, 0.0, 0.85});
+        biomeRanges2.put(Biome.TROPICALRAINFORESTI, new double[]{0.0, 0.225, 1.06, Double.POSITIVE_INFINITY});
+        biomeRanges2.put(Biome.TROPICALSEASONALFORESTI, new double[]{0.0, 0.225, 0.8, 1.06});
+        biomeRanges2.put(Biome.SAVANNAHI, new double[]{0.0, 0.225, 0.1, 0.3});
+        biomeRanges2.put(Biome.TEMPERATERAINFORESTI, new double[]{0.4, 0.7, 1.06, 1.4});
+        biomeRanges2.put(Biome.TEMPERATEDECIDUOUSUFORESTI, new double[]{0.225, 0.675, 0.21225, 1.5});
+        biomeRanges2.put(Biome.TEMPERATEGRASSLANDDESERTI, new double[]{0.225, 0.9, 0.0, 0.8});
         biomeRanges2.put(Biome.OCEAN, new double[]{0.0, 0.0, -1.0, -1.0});
 
         // Check which biome region it falls under
         if (profile.equalsIgnoreCase("canada")){
-            if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
+            if ((elevation >= 0 && elevation <= 0.5) && (absorption >= 0 && absorption <= 0.9)) {
                 this.baseType = new Desert();
                 return Biome.DESERTC;
             } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.85)) {
@@ -264,7 +264,7 @@ public class Tile {
         Biome closestBiome2 = Biome.LAKE;
         double closestDistance2 = Double.POSITIVE_INFINITY;
 
-        for (Map.Entry<Biome, double[]> entry : biomeRanges.entrySet()) {
+        for (Map.Entry<Biome, double[]> entry : biomeRanges2.entrySet()) {
             Biome biome = entry.getKey();
             double[] ranges = entry.getValue();
 

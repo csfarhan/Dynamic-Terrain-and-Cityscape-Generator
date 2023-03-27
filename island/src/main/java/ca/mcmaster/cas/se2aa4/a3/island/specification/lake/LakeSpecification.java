@@ -1,6 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a3.island.specification.lake;
 
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
+import ca.mcmaster.cas.se2aa4.a3.island.adt.river.RiverPath;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Lake;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.heatmap.Aquifer;
@@ -8,6 +10,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class LakeSpecification {
     private final long seed;
@@ -18,13 +21,22 @@ public class LakeSpecification {
     }
 
     public TerrainMesh addLakes(TerrainMesh terrainMesh){
+        List<Tile> islandTiles = terrainMesh.getIslandTiles();
 
-        if (numLakes == 0){
+        if (this.numLakes == -1){
             this.numLakes = (int) seed;
+            if (this.seed > islandTiles.size()){
+                System.out.println("The # of Lakes requested by the seed is not possible on this island.");
+                return terrainMesh;
+            }
             insertLakes(terrainMesh, numLakes);
-        } else if (numLakes == -1) {
+        } else if (numLakes == 0) {
             return terrainMesh;
         } else {
+            if (numLakes > islandTiles.size()){
+                System.out.println("The # of Lakes requested is not possible on this island. UPPER");
+                return terrainMesh;
+            }
             insertLakes(terrainMesh, numLakes);
         }
 
@@ -32,8 +44,6 @@ public class LakeSpecification {
     }
 
     public void insertLakes(TerrainMesh terrainMesh, int lakes){
-        List<Tile> tiles = terrainMesh.getIslandTiles();
-
         List<Tile> islandTiles = terrainMesh.getIslandTiles();
         List<Tile> inlandTiles = new ArrayList<>();
         //New list with only those that are not neighbours of ocean tiles
@@ -50,10 +60,14 @@ public class LakeSpecification {
             }
         }
 
-
         long x = seed;
         int n = 0;
+        ArrayList<Integer> lastN = new ArrayList<Integer>();
+
         while (n != lakes){
+            if (lastN.size() > 50){
+                break;
+            }
             for (Tile t : islandTiles){
                 List<Tile> neighbourTiles = t.getNeighbours();
                 boolean neighbourOcean = false;
@@ -81,6 +95,7 @@ public class LakeSpecification {
                 }
                 x += seed;
             }
+            lastN.add(n);
         }
 
     }

@@ -18,6 +18,7 @@ public class BiomeSpecification implements Biomable{
 
     public TerrainMesh biomeCreate(TerrainMesh terrainMesh){
         List<Tile> tiles = terrainMesh.getTiles();
+
         Set<Tile> biomeableTiles = new HashSet<>();
         for (Tile t : tiles){
             if (t.getBaseType().isLand()){

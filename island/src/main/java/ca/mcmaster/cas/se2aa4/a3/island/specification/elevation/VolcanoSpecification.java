@@ -32,7 +32,8 @@ public class VolcanoSpecification implements Elevationable {
         double centerX = (minX + maxX) / 2;
         double centerY = (minY + maxY) / 2;
         Random rand = new Random();
-        double radius = (0.2 + (0.5 - 0.2) * rand.nextDouble()) * Math.min(maxX - minX, maxY - minY);
+        System.out.println(terrainMesh.getRadius());
+        double radius = (0.2 + (0.5 - 0.2) * terrainMesh.getRadius()/1000) * Math.min(maxX - minX, maxY - minY);
 
         // Apply elevation profile to vertices
         for (Point p : points) {

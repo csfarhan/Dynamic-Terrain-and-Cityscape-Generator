@@ -32,11 +32,16 @@ One can run the generator with `-help` as option to see the different command li
 java -jar island/island.jar -i img/irregular.mesh -o img/irregularisland.mesh -s circle -e volcano -soil sand -biome canada
 ```
 ```
-shape (-s) arguments: circle, square
-elevation (-e) arguments: volcano, hill
-soil profile (-s) arguments: sand, clay, loam, Incorrect arguments(defaults to loam)
-biome (-biome) arguments: canada, indonesia, Incorrect arguments(defaults to canada)
-heatmap (-heatmap) arguments: altitude, absorption
+shape (-s) arguments: circle, square (REQUIRED)
+elevation (-e) arguments: volcano, hill, lagoon (REQUIRED)
+rivers (-rivers) arguments: # of rivers (defaults to random # of rivers) (NOT REQUIRED)
+lakes (-lakes) arguments: # of lakes (defaults to random # of lakes) (NOT REQUIRED)
+soil profile (-s) arguments: sand, clay, loam, Incorrect arguments(defaults to loam) (REQUIRED)
+biome (-biome) arguments: canada, indonesia, Incorrect arguments(defaults to canada) (REQUIRED)
+heatmap (-heatmap) arguments: altitude, absorption (NOT REQUIRED)
+
+to test 
+
 ```
 
 ### Visualizing a mesh, (regular or debug mode)

@@ -35,6 +35,7 @@ public class Main {
         Mesh inputMesh = new MeshFactory().read(config.input());
         Mesh outputMesh;
 
+
         //Random Number Generator for any # features not provided by user
         Random rng = new Random();
 
@@ -46,16 +47,16 @@ public class Main {
         terrainMesh = shapableSpec.buildShape(terrainMesh);
         terrainMesh.addIslandTiles();
 
+
         //Apply elevation
         Elevationable elevatableSpec = SpecificationFactory.createElevationable(config);
         terrainMesh = elevatableSpec.applyElevation(terrainMesh);
         terrainMesh.stabilizeAltitude();
-
         if (config.lakesProvided()){
             LakeSpecification lakeSpec = new LakeSpecification(seed, config.lakes());
             terrainMesh = lakeSpec.addLakes(terrainMesh);
         } else {
-            LakeSpecification lakeSpec = new LakeSpecification(seed, 0);
+            LakeSpecification lakeSpec = new LakeSpecification(seed, -1);
             terrainMesh = lakeSpec.addLakes(terrainMesh);
         }
 
@@ -77,12 +78,14 @@ public class Main {
         }
         terrainMesh = riverSpec.addRivers(terrainMesh);
 
+
         //Apply Soil properties
         Soilable SoilableSpec = SpecificationFactory.createSoilable(config);
         terrainMesh = SoilableSpec.applySoilAbsorption(terrainMesh);
 
         Biomable BiomableSpec = SpecificationFactory.createBiomable(config);
         terrainMesh = BiomableSpec.biomeCreate(terrainMesh);
+
 
 
         //Final rebuild of Mesh

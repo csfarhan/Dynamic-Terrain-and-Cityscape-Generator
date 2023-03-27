@@ -11,7 +11,7 @@ public class Seed {
         Random random = new Random();
         // Loop until the random value does not contain a zero
         do {
-            this.seed = random.nextLong(90) + 10;
+            this.seed = random.nextLong(41) + 10;
         } while (containsZeroOrOne(this.seed));
     }
 
