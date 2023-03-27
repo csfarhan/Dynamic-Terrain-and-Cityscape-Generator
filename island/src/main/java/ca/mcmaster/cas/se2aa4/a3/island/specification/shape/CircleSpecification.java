@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class CircleSpecification implements Shapable {
 
-    private final long seed;
+    private long seed;
 
     //Constructor
     public CircleSpecification(Seed seed){
@@ -43,6 +43,11 @@ public class CircleSpecification implements Shapable {
 
 
         //Using the seed to randomize
+        if (seed < 10){
+            String tempSeed = Long.toString(seed);
+            tempSeed = tempSeed+seed;
+            seed = Long.parseLong(tempSeed);
+        }
         int last = (int) seed % 10;
         int secondLast = (int) (seed / 10) % 10;
 

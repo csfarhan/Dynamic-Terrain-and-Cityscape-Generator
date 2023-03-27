@@ -31,7 +31,6 @@ public class Main {
         } else {
             seed = new Seed();
         }
-        System.out.println("Seed: "+seed.getSeed());
         Mesh inputMesh = new MeshFactory().read(config.input());
         Mesh outputMesh;
 
