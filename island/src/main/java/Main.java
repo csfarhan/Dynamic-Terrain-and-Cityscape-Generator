@@ -3,7 +3,6 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.TerrainMesh;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a3.island.configuration.Seed;
-import ca.mcmaster.cas.se2aa4.a3.island.specification.biome.BiomeSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.SpecificationFactory;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.aquifer.AquiferSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.elevation.Elevationable;
@@ -12,13 +11,13 @@ import ca.mcmaster.cas.se2aa4.a3.island.specification.river.RiverSpecification;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.shape.Shapable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.soil.Soilable;
 import ca.mcmaster.cas.se2aa4.a3.island.specification.biome.Biomable;
-
 import java.io.IOException;
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         Configuration config = new Configuration(args);
         Seed seed;
         if (config.seedProvided()){
@@ -86,7 +85,6 @@ public class Main {
         terrainMesh = BiomableSpec.biomeCreate(terrainMesh);
 
 
-
         //Final rebuild of Mesh
         if (config.heatmapProvided()){
             switch (config.heatmap()){
@@ -104,14 +102,16 @@ public class Main {
                 //Add more heatmap options as more cases
                 default:
                     terrainMesh.calculateBiome(config.biome()); //null arg until Whittaker Diagrams implemented
-                    outputMesh = terrainMesh.addColor(inputMesh);
+                    outputMesh = terrainMesh.addColor(inputMesh, config.numCities());
                     break;
             }
         } else {
             terrainMesh.calculateBiome(config.biome()); //null arg until Whittaker Diagrams implemented
-            outputMesh = terrainMesh.addColor(inputMesh);
+            outputMesh = terrainMesh.addColor(inputMesh, config.numCities());
         }
+
 
         new MeshFactory().write(outputMesh, config.output());
     }
+
 }

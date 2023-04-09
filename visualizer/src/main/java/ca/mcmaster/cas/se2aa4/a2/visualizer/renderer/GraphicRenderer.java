@@ -9,8 +9,10 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 public class GraphicRenderer implements Renderer {
@@ -22,6 +24,29 @@ public class GraphicRenderer implements Renderer {
         canvas.setStroke(stroke);
         drawPolygons(aMesh,canvas);
         drawSegments(aMesh, canvas);
+        drawVertex(aMesh, canvas);
+    }
+
+    private void drawVertex(Mesh aMesh, Graphics2D canvas){
+        // Drawing cities
+        List<Vertex> vertices = aMesh.getVerticesList();
+        Stroke stroke = new BasicStroke(0.7f);
+        canvas.setStroke(stroke);
+        for (Structs.Vertex v : vertices){
+            for (Structs.Property prop : v.getPropertiesList()){
+                if (prop.getKey().equals("thickness")){
+                    stroke = new BasicStroke(Float.parseFloat(prop.getValue()));
+                    canvas.setStroke(stroke);
+                    canvas.setColor(extractColor(v.getPropertiesList()));
+                    Ellipse2D.Double circle = new Ellipse2D.Double(v.getX(),v.getY(), 5, 5);
+                    canvas.fill(circle);
+                    canvas.draw(circle);
+                }
+            }
+
+
+            //System.out.println(v.getPropertiesList());
+        }
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
@@ -84,6 +109,21 @@ public class GraphicRenderer implements Renderer {
 
         Stroke stroke = new BasicStroke(0.3f);
         canvas.setStroke(stroke);
+    }
+    private Color extractColor(List<Structs.Property> properties) {
+        String val = null;
+        for(Structs.Property p: properties) {
+            if (p.getKey().equals("rgb_color")) {
+                val = p.getValue();
+            }
+        }
+        if (val == null)
+            return Color.BLACK;
+        String[] raw = val.split(",");
+        int red = Integer.parseInt(raw[0]);
+        int green = Integer.parseInt(raw[1]);
+        int blue = Integer.parseInt(raw[2]);
+        return new Color(red, green, blue);
     }
 
 }

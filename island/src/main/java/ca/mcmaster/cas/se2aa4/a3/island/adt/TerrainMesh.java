@@ -7,6 +7,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TerrainMesh {
     List<Tile> tiles = new ArrayList<>();
@@ -99,7 +100,7 @@ public class TerrainMesh {
     }
 
     //Paint mesh
-    public Mesh addColor(Mesh inputMesh) {
+    public Mesh addColor(Mesh inputMesh, int numCities) {
         List<Polygon> newPolygons = new ArrayList<>();
         for (Tile t : tiles){
             Polygon p = t.getFoundationPolygon();
@@ -117,6 +118,25 @@ public class TerrainMesh {
             Vertex v = p.getFoundationVertex();
             newVertices.add(Vertex.newBuilder(v).addProperties(p.getDefaultColor()).build());
         }
+
+
+        // Adding cities
+        List<Tile> temp = getIslandTiles();
+        Property avg_color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0").build();
+
+        int count = 0;
+        for (Tile t : temp){
+            if (count == numCities){
+                break;
+            }
+            Random random = new Random();
+            int randomNumber = random.nextInt(21)+5;
+            Property thickness = Property.newBuilder().setKey("thickness").setValue(Integer.toString(randomNumber)).build();
+            newVertices.add(Vertex.newBuilder(temp.get(count).getCentroid().getFoundationVertex()).addProperties(avg_color).addProperties(thickness).build());
+            count++;
+            System.out.println("entered");
+        }
+
 
         return Mesh.newBuilder(inputMesh)
                 .clearPolygons()
