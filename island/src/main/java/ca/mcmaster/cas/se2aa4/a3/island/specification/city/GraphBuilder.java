@@ -40,9 +40,6 @@ public class GraphBuilder {
             }
         }
 
-
-        //System.out.println(islandTiles.size() + " " + count);
-
         return graph;
     }
 
