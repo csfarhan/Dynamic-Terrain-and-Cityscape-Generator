@@ -1,13 +1,28 @@
 package ca.mcmaster.cas.se2aa4.a3.pathfinder;
 
-public class Node {
-    private final String name;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-    public Node(String name) {
-        this.name = name;
+public class Node {
+    private String city;
+
+    public int getIndex() {
+        return index;
     }
 
-    public String getName() {
-        return name;
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    private int index = 0;
+
+    public Node(String city) {
+        this.city = city;
+    }
+
+    public String getCity() {
+        return city;
     }
 }
+

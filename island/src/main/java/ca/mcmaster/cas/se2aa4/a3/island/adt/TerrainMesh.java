@@ -1,13 +1,21 @@
 package ca.mcmaster.cas.se2aa4.a3.island.adt;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.edge.Edge;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.point.Point;
 import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.city.CitySpecification;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.city.GraphBuilder;
+import ca.mcmaster.cas.se2aa4.a3.island.specification.city.TwoLists;
+import ca.mcmaster.cas.se2aa4.a3.pathfinder.Graph;
+import ca.mcmaster.cas.se2aa4.a3.pathfinder.Node;
+import ca.mcmaster.cas.se2aa4.a3.pathfinder.Pathfinder;
 
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class TerrainMesh {
     List<Tile> tiles = new ArrayList<>();
@@ -101,41 +109,29 @@ public class TerrainMesh {
 
     //Paint mesh
     public Mesh addColor(Mesh inputMesh, int numCities) {
-        List<Polygon> newPolygons = new ArrayList<>();
+        ArrayList<Polygon> newPolygons = new ArrayList<>();
         for (Tile t : tiles){
             Polygon p = t.getFoundationPolygon();
             newPolygons.add(Polygon.newBuilder(p).addProperties(t.getDefaultColor()).build());
         }
 
-        List<Segment> newSegments = new ArrayList<>();
+        ArrayList<Segment> newSegments = new ArrayList<>();
         for (Edge e : edges){
             Segment s = e.getFoundationSegment();
             newSegments.add(Segment.newBuilder(s).addProperties(e.getDefaultColor()).addProperties(e.getThickness()).build());
         }
 
-        List<Vertex> newVertices = new ArrayList<>();
+        ArrayList<Vertex> newVertices = new ArrayList<>();
         for (Point p : points){
-            Vertex v = p.getFoundationVertex();
-            newVertices.add(Vertex.newBuilder(v).addProperties(p.getDefaultColor()).build());
+            newVertices.add(Vertex.newBuilder(p.getFoundationVertex()).addProperties(p.getDefaultColor()).build());
         }
 
 
-        // Adding cities
-        List<Tile> temp = getIslandTiles();
-        Property avg_color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0").build();
-
-        int count = 0;
-        for (Tile t : temp){
-            if (count == numCities){
-                break;
-            }
-            Random random = new Random();
-            int randomNumber = random.nextInt(21)+5;
-            Property thickness = Property.newBuilder().setKey("thickness").setValue(Integer.toString(randomNumber)).build();
-            newVertices.add(Vertex.newBuilder(temp.get(count).getCentroid().getFoundationVertex()).addProperties(avg_color).addProperties(thickness).build());
-            count++;
-            System.out.println("entered");
-        }
+        // Generate cities, the central hub, and the star network connecting all the cities
+        CitySpecification citySpec = new CitySpecification();
+        TwoLists lists = citySpec.createCities(islandTiles, numCities, newVertices, newSegments);
+        newSegments = lists.newSegments;
+        newVertices = lists.newVertices;
 
 
         return Mesh.newBuilder(inputMesh)

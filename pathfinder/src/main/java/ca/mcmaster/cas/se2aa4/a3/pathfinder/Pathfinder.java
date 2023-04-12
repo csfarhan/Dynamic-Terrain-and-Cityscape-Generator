@@ -2,61 +2,68 @@ package ca.mcmaster.cas.se2aa4.a3.pathfinder;
 
 import java.util.*;
 
+import java.util.*;
+
 public class Pathfinder implements PathfinderInterface {
-    public List<Node> findShortestPath(Graph graph, Node startNode, Node endNode) {
-        Map<Node, Integer> distance = new HashMap<>();
-        Map<Node, Node> previous = new HashMap<>();
-        Set<Node> visited = new HashSet<>();
+    private Graph graph;
 
-        for (Node node : graph.getAdjacencyMap().keySet()) {
-            distance.put(node, Integer.MAX_VALUE);
-            previous.put(node, null);
-        }
+    public Pathfinder(Graph graph) {
+        this.graph = graph;
+    }
 
-        distance.put(startNode, 0);
-        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(distance::get));
-        queue.add(startNode);
+    @Override
+    public List<Node> findShortestPath(Node source, Node destination) {
+        Map<Node, Double> distances = new HashMap<>();
+        Map<Node, Node> previousNodes = new HashMap<>();
+        Set<Node> unvisitedNodes = new HashSet<>();
 
-        while (!queue.isEmpty()) {
-            Node current = queue.poll();
-            visited.add(current);
+        Comparator<Node> nodeComparator = Comparator.comparingDouble(n -> distances.getOrDefault(n, Double.MAX_VALUE));
+        PriorityQueue<Node> queue = new PriorityQueue<>(nodeComparator);
 
-            if (current.equals(endNode)) {
-                return reconstructPath(previous, endNode);
-            }
 
-            Map<Node, Edge> neighbors = graph.getAdjacentNodes(current);
-            if (neighbors == null) {
+        for (Node node : graph.adjacencyList.keySet()) {
+            if (node == null) {
                 continue;
             }
+            double initialDistance = (node.equals(source)) ? 0.0 : Double.MAX_VALUE;
+            distances.put(node, initialDistance);
+            unvisitedNodes.add(node);
+        }
 
-            for (Node neighbor : neighbors.keySet()) {
-                if (visited.contains(neighbor)) {
+
+        distances.put(source, 0.0);
+        queue.add(source);
+
+        while (!queue.isEmpty()) {
+            Node currentNode = queue.poll();
+            unvisitedNodes.remove(currentNode);
+
+            if (currentNode.equals(destination)) {
+                break;
+            }
+
+            for (Edge edge : graph.getEdges(currentNode)) {
+                Node neighbor = edge.getDestination();
+                if (!unvisitedNodes.contains(neighbor)) {
                     continue;
                 }
 
-                int newDistance = distance.get(current) + neighbors.get(neighbor).getWeight();
-                if (newDistance < distance.get(neighbor)) {
-                    distance.put(neighbor, newDistance);
-                    previous.put(neighbor, current);
+                double newDistance = distances.get(currentNode) + edge.getWeight();
+                if (newDistance < distances.get(neighbor)) {
+                    distances.put(neighbor, newDistance);
+                    previousNodes.put(neighbor, currentNode);
                     queue.remove(neighbor);
                     queue.add(neighbor);
                 }
             }
         }
 
-        return null;
-    }
-
-    private static List<Node> reconstructPath(Map<Node, Node> previous, Node endNode) {
-        List<Node> path = new ArrayList<>();
-        Node current = endNode;
-        while (previous.get(current) != null) {
-            path.add(current);
-            current = previous.get(current);
+        LinkedList<Node> path = new LinkedList<>();
+        Node pathNode = destination;
+        while (pathNode != null) {
+            path.addFirst(pathNode);
+            pathNode = previousNodes.get(pathNode);
         }
-        Collections.reverse(path);
-        return path;
+        return path.isEmpty() || !path.getFirst().equals(source) ? null : path;
     }
-
 }

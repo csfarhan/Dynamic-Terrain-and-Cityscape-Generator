@@ -41,6 +41,7 @@ public class Tile {
     private Aquifer aquifer = Aquifer.FALSE; //No aquifer by default
     private double moisture = 0;
     private double absorption = 0;
+    private int centroidIdx = 0;
 
     //Constructor
     public Tile(Polygon foundation, List<Edge> edgeList, List<Point> pointList){
@@ -50,7 +51,10 @@ public class Tile {
             pointsOfTile.addAll(edgeList.get(i).getPointsOfEdge());
         }
         centroid = pointList.get(foundation.getCentroidIdx());
+        centroidIdx = foundation.getCentroidIdx();
     }
+
+    public int getCentroidIdx(){return this.centroidIdx;}
 
     //Second 'constructor' for after all tiles have been instantiated
     public void addNeighbours(List<Tile> allTiles){
@@ -163,6 +167,9 @@ public class Tile {
             if ((elevation >= 0 && elevation <= 0.5) && (absorption >= 0 && absorption <= 0.9)) {
                 this.baseType = new Desert();
                 return Biome.DESERTC;
+            } else if (absorption == 1.75) {
+                this.baseType = new Lake();
+                return Biome.LAKE;
             } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.85)) {
                 this.baseType = new Tundra();
                 return Biome.TUNDRAC;
@@ -194,6 +201,9 @@ public class Tile {
             if ((elevation >= 0 && elevation <= 0.9) && (absorption >= 0 && absorption <= 0.425)) {
                 this.baseType = new DesertI();
                 return Biome.DESERTI;
+            } else if (absorption == 1.75) {
+                this.baseType = new Lake();
+                return Biome.LAKE;
             } else if ((elevation >= 0.8) && (absorption >= 0 && absorption <= 0.425)) {
                 this.baseType = new TundraI();
                 return Biome.TUNDRAI;

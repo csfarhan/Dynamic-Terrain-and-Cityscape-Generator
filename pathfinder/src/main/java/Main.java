@@ -1,9 +1,4 @@
-import ca.mcmaster.cas.se2aa4.a3.pathfinder.Graph;
-import ca.mcmaster.cas.se2aa4.a3.pathfinder.Node;
-import ca.mcmaster.cas.se2aa4.a3.pathfinder.Pathfinder;
-
 import java.io.IOException;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {

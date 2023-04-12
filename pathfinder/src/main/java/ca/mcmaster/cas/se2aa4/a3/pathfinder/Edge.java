@@ -1,11 +1,11 @@
 package ca.mcmaster.cas.se2aa4.a3.pathfinder;
 
 public class Edge {
-    private final Node source;
-    private final Node destination;
-    private final int weight;
+    private Node source;
+    private Node destination;
+    private double weight;
 
-    public Edge(Node source, Node destination, int weight) {
+    public Edge(Node source, Node destination, double weight) {
         this.source = source;
         this.destination = destination;
         this.weight = weight;
@@ -19,7 +19,7 @@ public class Edge {
         return destination;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 }

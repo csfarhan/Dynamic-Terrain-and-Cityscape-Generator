@@ -30,22 +30,17 @@ public class GraphicRenderer implements Renderer {
     private void drawVertex(Mesh aMesh, Graphics2D canvas){
         // Drawing cities
         List<Vertex> vertices = aMesh.getVerticesList();
-        Stroke stroke = new BasicStroke(0.7f);
-        canvas.setStroke(stroke);
         for (Structs.Vertex v : vertices){
             for (Structs.Property prop : v.getPropertiesList()){
                 if (prop.getKey().equals("thickness")){
-                    stroke = new BasicStroke(Float.parseFloat(prop.getValue()));
-                    canvas.setStroke(stroke);
+                    int THICKNESS =(int) Float.parseFloat(prop.getValue());
+                    double centre_x = v.getX() - (THICKNESS/2.0d);
+                    double centre_y = v.getY() - (THICKNESS/2.0d);
                     canvas.setColor(extractColor(v.getPropertiesList()));
-                    Ellipse2D.Double circle = new Ellipse2D.Double(v.getX(),v.getY(), 5, 5);
-                    canvas.fill(circle);
-                    canvas.draw(circle);
+                    Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+                    canvas.fill(point);
                 }
             }
-
-
-            //System.out.println(v.getPropertiesList());
         }
     }
 
