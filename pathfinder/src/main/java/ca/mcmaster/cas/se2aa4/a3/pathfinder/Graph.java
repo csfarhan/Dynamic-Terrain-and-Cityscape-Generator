@@ -88,7 +88,7 @@ public class Graph {
     }
 
     public List<Edge> getEdges(Node node) {
-        return adjacencyList.get(node);
+        return adjacencyList.getOrDefault(node, Collections.emptyList());
     }
 
     public List<Node> getNodeList() {

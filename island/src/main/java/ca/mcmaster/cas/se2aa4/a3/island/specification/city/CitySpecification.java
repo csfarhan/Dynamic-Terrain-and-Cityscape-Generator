@@ -13,7 +13,7 @@ public class CitySpecification {
     public TwoLists createCities(List<Tile> islandTiles, int numCities, ArrayList<Structs.Vertex> newVertices, ArrayList<Structs.Segment> newSegments) {
         // Create graph and create all island nodes
         GraphBuilder graphBuilder = new GraphBuilder();
-        Graph graph = graphBuilder.populateGraph(islandTiles);
+        Graph graph = graphBuilder.populateGraph(islandTiles, numCities);
 
         CityBuilder cityBuilder = new CityBuilder(graph, newVertices);
         List<Node> cities = cityBuilder.buildCities(islandTiles, numCities);

@@ -25,6 +25,9 @@ public class CentralHubConnector {
 
         // Choose central hub
         Node centralHub = graph.getCentralHub(cities);
+        if (centralHub == null){
+            centralHub = cities.get(0);
+        }
 
         // Iterate through the shortestPath of the hub to every other city and make edges
         for (Node c2 : cities) {

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GraphBuilder {
 
-    public Graph populateGraph(List<Tile> islandTiles) {
+    public Graph populateGraph(List<Tile> islandTiles, int numCities) {
         Graph graph = new Graph();
         int count = 0;
         String cityName = "Node 1";
@@ -24,14 +24,24 @@ public class GraphBuilder {
 
         for (Tile t : islandTiles) {
             if (isValidTile(t)) {
-                String name = generator.generateName();
-                Node tempNode = new Node(name);
-                tempNode.setIndex(t.getCentroidIdx());
-                graph.nodeMap.put(t.getCentroidIdx(), tempNode);
-                count++;
-                System.out.println("The name of this city is: " + tempNode.getCity());
+                if (count < numCities){
+                    String name = generator.generateName();
+                    Node tempNode = new Node(name);
+                    tempNode.setIndex(t.getCentroidIdx());
+                    graph.nodeMap.put(t.getCentroidIdx(), tempNode);
+                    System.out.println("The name of this city is: " + name);
+                    count++;
+                } else {
+                    Node tempNode = createNode(cityName, count);
+                    tempNode.setIndex(t.getCentroidIdx());
+                    graph.nodeMap.put(t.getCentroidIdx(), tempNode);
+                    count++;
+                }
             }
         }
+
+
+        //System.out.println(islandTiles.size() + " " + count);
 
         return graph;
     }
