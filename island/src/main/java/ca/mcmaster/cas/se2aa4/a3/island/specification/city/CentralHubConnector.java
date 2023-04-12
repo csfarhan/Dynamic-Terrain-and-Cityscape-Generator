@@ -27,21 +27,17 @@ public class CentralHubConnector {
         Node centralHub = graph.getCentralHub(cities);
 
         // Iterate through the shortestPath of the hub to every other city and make edges
-        int tempCities = cities.size();
-        while (tempCities != 0) {
-            for (Node c2 : cities) {
-                if (c2 != null && centralHub.getIndex() != c2.getIndex()) {
-                    if (centralHub.getIndex() != c2.getIndex()) {
-                        List<Node> shortestPath = pathfinder.findShortestPath(centralHub, c2);
-                        if (shortestPath != null) {
-                            createPathSegments(shortestPath, avgColor);
-                        } else {
-                            System.out.println("No path found");
-                        }
+        for (Node c2 : cities) {
+            if (c2 != null && centralHub.getIndex() != c2.getIndex()) {
+                if (centralHub.getIndex() != c2.getIndex()) {
+                    List<Node> shortestPath = pathfinder.findShortestPath(centralHub, c2);
+                    if (shortestPath != null) {
+                        createPathSegments(shortestPath, avgColor);
+                    } else {
+                        System.out.println("No path found");
                     }
                 }
             }
-            tempCities--;
         }
 
 
