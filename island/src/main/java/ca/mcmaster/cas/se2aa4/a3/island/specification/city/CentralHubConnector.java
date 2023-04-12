@@ -26,6 +26,9 @@ public class CentralHubConnector {
         // Choose central hub
         Node centralHub = graph.getCentralHub(cities);
         if (centralHub == null){
+            if (cities.size() == 0){
+                return;
+            }
             centralHub = cities.get(0);
         }
 
