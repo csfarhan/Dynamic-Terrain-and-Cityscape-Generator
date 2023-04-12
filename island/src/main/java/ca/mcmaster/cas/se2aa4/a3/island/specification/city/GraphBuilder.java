@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a3.island.adt.tile.Tile;
 import ca.mcmaster.cas.se2aa4.a3.pathfinder.Graph;
 import ca.mcmaster.cas.se2aa4.a3.pathfinder.Node;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class GraphBuilder {
@@ -13,16 +14,24 @@ public class GraphBuilder {
         int count = 0;
         String cityName = "Node 1";
 
+        List<String> words = Arrays.asList(
+                "New", "York", "Los", "Angeles", "San", "Francisco",
+                "Chicago", "Houston", "Miami", "Seattle", "Boston",
+                "Denver", "Atlanta", "Hawaii", "Caribbean", "Pacific",
+                "Atlantic", "Island", "Beach", "Bay", "Harbor"
+        );
+        NameGenerator generator = new NameGenerator(words);
+
         for (Tile t : islandTiles) {
             if (isValidTile(t)) {
-                Node tempNode = createNode(cityName, count);
+                String name = generator.generateName();
+                Node tempNode = new Node(name);
                 tempNode.setIndex(t.getCentroidIdx());
                 graph.nodeMap.put(t.getCentroidIdx(), tempNode);
                 count++;
+                System.out.println("The name of this city is: " + tempNode.getCity());
             }
         }
-
-        //System.out.println(islandTiles.size() + " " + count);
 
         return graph;
     }
@@ -36,5 +45,6 @@ public class GraphBuilder {
         String city1 = city[0];
         int city2 = Integer.parseInt(city[1]) + count;
         return new Node(city1 + city2);
+
     }
 }
